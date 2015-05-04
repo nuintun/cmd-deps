@@ -30,8 +30,7 @@
     "dependencies"
   ],
   "dependencies": {
-    "acorn": "^1.0.3",
-    "escodegen": "^1.6.1"
+    "acorn": "^1.0.3"
   },
   "devDependencies": {
     "detective": "^4.0.1",
