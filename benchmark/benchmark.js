@@ -12,7 +12,7 @@ var tests = {
   'in reg': '/require("a")/;function require(require){return require;}',
   'in ifstmt with no {}': 'if(true)/require("a")/;function require(require){return require;}',
   'in dostmt with no {}': 'do /require("a")/.test(s); while(false);function require(require){return require;}',
-  'reg / reg': '/require("a")/ / /require("b")/; requirefunction(require){return require;}',
+  'reg / reg': '/require("a")/ / /require("b")/; function require(require){return require;}',
   'ignore variable': 'require("a" + b);function require(require){return require;}'
 };
 var results = {
