@@ -1,4 +1,4 @@
-var cmdDeps = require('../index');
+var cdeps = require('../index');
 var detective = require('detective');
 var Benchmark = require('benchmark');
 
@@ -34,9 +34,9 @@ Object.keys(tests).forEach(function (key){
   var s = tests[key];
   // add tests
   suite.add('cmd-deps: ' + key, function (){
-    return cmdDeps(s).length === results[key];
+    return cdeps(s).length === results[key];
   }).add('detective: ' + key, function (){
-    return cmdDeps(s).length === results[key];
+    return cdeps(s).length === results[key];
   })
     // add listeners
     .on('cycle', function (event){
