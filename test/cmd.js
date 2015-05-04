@@ -13,6 +13,10 @@ define(function (require, exports, module){
   require['async']('zepto', function (){
     // comments
   });
+  require.async('zepto', function (zepto){
+    // comments
+    zepto('#zepto');
+  });
   require.async(['start', fork, 'stop']);
   require.async(fork ? 'fork' : 'unfork');
 });
