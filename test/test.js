@@ -6,7 +6,7 @@ describe('get the right deps', function (){
   var res = cmdDeps(s);
   it('string', function (){
     expect(res.map(function (o){
-      return o.string
+      return o.string;
     })).to.eql(['require("a")', 'require(\'b"\')', 'require("c\\"")']);
   });
   it('path', function (){

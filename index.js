@@ -108,7 +108,7 @@ function parseDependencies(s, replace, async){
           mod = s.substring(modStart, modEnd);
 
           if (replace) {
-            var replaced = parser(mod, replace, { flag: flag });
+            var replaced = parser(mod, replace, { flag: flag }).slice(0, -1);
 
             s = s.slice(0, modStart) + replaced + s.slice(modEnd);
 

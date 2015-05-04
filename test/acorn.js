@@ -9,6 +9,11 @@ var fs = require('fs'),
   code = fs.readFileSync('./cmd.js', { encoding: 'utf8' });
 
 console.time('crequire');
-var parsered = parser(code, true);
-console.log(JSON.stringify(parsered, null, 2));
+var parsered = parser(code, function (path, flag){
+  if (flag === 'async') return 'async';
+
+  return 'require';
+}, true);
+//console.log(JSON.stringify(parsered, null, 2));
+console.log(parsered);
 console.timeEnd('crequire');
