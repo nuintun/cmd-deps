@@ -4,120 +4,12 @@
 
 'use strict';
 
-var UglifyJS = require('uglify-js');
-
-// Get requires
-function getRequires(code, flag){
-  var meta = [];
-  var ast = UglifyJS.parse(code);
-
-  ast.walk(new UglifyJS.TreeWalker(function (node){
-    var child, args;
-
-    // Get require
-    if (node instanceof UglifyJS.AST_Call && node.expression.name === 'require' && node.args.length) {
-      child = node.args[0];
-
-      if (child instanceof UglifyJS.AST_String) {
-        meta.push({
-          flag: flag,
-          path: child.getValue()
-        })
-      }
-
-      return true;
-    }
-
-    // Get require.flag or require['flag']
-    if (node instanceof UglifyJS.AST_Call && node.start.value === 'require'
-      && (node.expression.property === flag || node.expression.property.value === flag)
-      && node.args.length) {
-
-      args = node.args[0];
-      child = args instanceof UglifyJS.AST_Array ? args.elements : [args];
-
-      child.forEach(function (node){
-        if (node instanceof UglifyJS.AST_String) {
-          meta.push({
-            flag: flag,
-            path: node.getValue()
-          });
-        }
-      });
-
-      return true;
-    }
-  }));
-
-  return meta;
-}
-
-// Make function
-function makeFunction(fn){
-  if (typeof fn === 'function') return fn;
-
-  if (typeof fn === 'object' && !Array.isArray(fn)) {
-    var alias = fn;
-
-    return function (value){
-      if (alias.hasOwnProperty(value)) {
-        return alias[value];
-      } else {
-        return value;
-      }
-    };
-  }
-
-  return function (value){
-    return value;
-  };
-}
-
-// Create replace child function
-function replaceChild(node, fn, flag){
-  var child, args = node.args[0],
-    children = args instanceof UglifyJS.AST_Array ? args.elements : [args];
-
-  for (var i = 0, len = children.length; i < len; i++) {
-    child = children[i];
-
-    if (child instanceof UglifyJS.AST_String) {
-      child.value = fn(child.getValue(), flag);
-    }
-  }
-}
-
-// Replace requires
-function replaceRequire(code, flag, replace){
-  var ast = UglifyJS.parse(code);
-  var stream = UglifyJS.OutputStream();
-
-  replace = makeFunction(replace);
-
-  ast.transform(new UglifyJS.TreeTransformer(function (node){
-    // Replace require('path')
-    if (node instanceof UglifyJS.AST_Call
-      && node.expression.name === 'require' && node.args.length) {
-      return replaceChild(node, replace, flag);
-    }
-
-    // Replace require.flag('path') or require['flag']('path')
-    if (node instanceof UglifyJS.AST_Call && node.start.value === 'require'
-      && (node.expression.property === flag || node.expression.property.value === flag)
-      && node.args.length) {
-      return replaceChild(node, replace, flag);
-    }
-  }));
-
-  ast.print(stream);
-
-  return stream.toString();
-}
+var parser = require('./lib/parser');
 
 // Parse dependencies
-function parseDependencies(s, replace, includeAsync){
+function parseDependencies(s, replace, async){
   if (replace === true) {
-    includeAsync = true;
+    async = true;
     replace = null;
   }
 
@@ -125,7 +17,7 @@ function parseDependencies(s, replace, includeAsync){
     return replace ? s : [];
   }
 
-  var REQUIRERE = includeAsync
+  var REQUIRERE = async
     ? /^require\s*(?:(?:\.\s*[a-zA-Z_$][\w$]*)|(?:\[\s*(['"]).*?\1\s*\]))?\s*\(\s*(?:['"]|\[)/
     : /^require\s*\(\s*['"]/;
   var FLAGRE = /^require\s*(?:(?:\.\s*([a-zA-Z_$][\w$]*))|(?:\[\s*(['"])(.*)?\2\s*\]))/;
@@ -216,7 +108,7 @@ function parseDependencies(s, replace, includeAsync){
           mod = s.substring(modStart, modEnd);
 
           if (replace) {
-            var replaced = replaceRequire(mod, flag, replace);
+            var replaced = parser(mod, replace, { flag: flag });
 
             s = s.slice(0, modStart) + replaced + s.slice(modEnd);
 
@@ -225,7 +117,7 @@ function parseDependencies(s, replace, includeAsync){
               length = s.length;
             }
           } else {
-            meta = meta.concat(getRequires(mod, flag));
+            meta = meta.concat(parser(mod, { flag: flag }).meta);
           }
         }
       }
