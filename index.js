@@ -112,7 +112,7 @@ function parseDependencies(s, replace, async){
 
             s = s.slice(0, modStart) + replaced + s.slice(modEnd);
 
-            if (replaced.length != mod.length) {
+            if (replaced.length !== mod.length) {
               index = modStart + replaced.length;
               length = s.length;
             }
