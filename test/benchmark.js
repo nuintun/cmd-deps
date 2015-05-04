@@ -3,17 +3,17 @@ var detective = require('detective');
 var Benchmark = require('benchmark');
 
 var tests = {
-  'normal': 'require("a");require(\'b"\');require("c\\"")',
-  'reg & comment': '(1)/*\n*/ / require("a")',
-  'after return': "return require('highlight.js').highlightAuto(code).value;",
-  'in quote': '"require(\'a\')"',
-  'in comment': '//require("a")',
-  'in multi comment': '/*\nrequire("a")*/',
-  'in reg': '/require("a")/',
-  'in ifstmt with no {}': 'if(true)/require("a")/',
-  'in dostmt with no {}': 'do /require("a")/.test(s); while(false)',
-  'reg / reg': '/require("a")/ / /require("b")',
-  'ignore variable': 'require("a" + b)'
+  'normal': 'require("a");require(\'b"\');require("c\\"");function(require){return require;}',
+  'reg & comment': '(1)/*\n*/ / require("a");function(require){return require;}',
+  'after return': "return require('highlight.js').highlightAuto(code).value;function(require){return require;}",
+  'in quote': '"require(\'a\')";function(require){return require;}',
+  'in comment': '//require("a");function(require){return require;}',
+  'in multi comment': '/*\nrequire("a")*/require("a");function(require){return require;}',
+  'in reg': '/require("a")/;function(require){return require;}',
+  'in ifstmt with no {}': 'if(true)/require("a")/;function(require){return require;}',
+  'in dostmt with no {}': 'do /require("a")/.test(s); while(false);function(require){return require;}',
+  'reg / reg': '/require("a")/ / /require("b");function(require){return require;}',
+  'ignore variable': 'require("a" + b);function(require){return require;}'
 };
 var results = {
   'normal': 3,
@@ -33,7 +33,7 @@ Object.keys(tests).forEach(function (key){
   var suite = new Benchmark.Suite;
   var s = tests[key];
   // add tests
-  suite.add('cmdDeps: ' + key, function (){
+  suite.add('cmd-deps: ' + key, function (){
     return cmdDeps(s).length === results[key];
   }).add('detective: ' + key, function (){
     return cmdDeps(s).length === results[key];
