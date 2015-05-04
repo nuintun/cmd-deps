@@ -7,7 +7,7 @@ var tests = {
   'reg & comment': '(1)/*\n*/ / require("a");function(require){return require;}',
   'after return': "return require('highlight.js').highlightAuto(code).value;function(require){return require;}",
   'in quote': '"require(\'a\')";function(require){return require;}',
-  'in comment': '//require("a");function(require){return require;}',
+  'in comment': 'require("a");//require("a");function(require){return require;}',
   'in multi comment': '/*\nrequire("a")*/require("a");function(require){return require;}',
   'in reg': '/require("a")/;function(require){return require;}',
   'in ifstmt with no {}': 'if(true)/require("a")/;function(require){return require;}',
