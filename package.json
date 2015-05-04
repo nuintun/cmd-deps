@@ -33,6 +33,7 @@
     "acorn": "^1.0.3"
   },
   "devDependencies": {
+    "istanbul": "^0.3.13",
     "detective": "^4.0.1",
     "benchmark": "^1.0.0",
     "expect.js": "^0.3.1"
