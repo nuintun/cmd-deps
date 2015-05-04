@@ -91,6 +91,7 @@ describe('get the right deps', function (){
     expect(res.length).to.eql(1);
   });
 });
+
 describe('ignores', function (){
   it('in quote', function (){
     var s = '"require(\'a\')"';
@@ -203,6 +204,7 @@ describe('ignores', function (){
     expect(res.length).to.eql(0);
   });
 });
+
 describe('callback', function (){
   it('none', function (){
     var s = 'test("a")';
