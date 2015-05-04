@@ -1,4 +1,4 @@
-# cmd-deps
+cmd-deps
 =========
 
 >Get commonjs dependences
