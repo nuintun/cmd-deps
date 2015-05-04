@@ -1,9 +1,9 @@
 # cmd-deps
 =========
 
->Get dependences of using require in module by simple syntax parser
+>Get commonjs dependences
 
->[![NPM Version][npm-image]][npm-url] [![Download Status][download-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Test Coverage][coveralls-image]][coveralls-url] ![Node Version][node-image] [![Dependencies][david-image]][david-url]
+>[![NPM Version][npm-image]][npm-url] [![Download Status][download-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Test Coverage][coveralls-image]][coveralls-url] [![Dependencies][david-image]][david-url]
 
 ### Installation
 ```
@@ -41,7 +41,6 @@ parser output:
 [travis-url]: https://travis-ci.org/Nuintun/cmd-deps
 [coveralls-image]: http://img.shields.io/coveralls/Nuintun/cmd-deps/master.svg?style=flat-square
 [coveralls-url]: https://coveralls.io/r/Nuintun/cmd-deps?branch=master
-[node-image]: http://img.shields.io/node/v/01.svg?style=flat-square
 [david-image]: http://img.shields.io/david/nuintun/cmd-deps.svg?style=flat-square
 [david-url]: https://david-dm.org/Nuintun/cmd-deps
 [npm-image]: http://img.shields.io/npm/v/cmd-deps.svg?style=flat-square
