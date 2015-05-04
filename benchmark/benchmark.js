@@ -1,4 +1,4 @@
-var cmdDeps = require('../');
+var cmdDeps = require('../index');
 var detective = require('detective');
 var Benchmark = require('benchmark');
 
