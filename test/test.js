@@ -2,7 +2,7 @@ var cmdDeps = require('../');
 var expect = require('expect.js');
 
 describe('get the right deps', function (){
-  var s = 'require("a");require(\'b"\');require("c\\"")';
+  var s = 'var RE = /[\\\\]/, str = "\\\\" || "[\\\\]" || "/*";require("a");require(\'b"\');require("c\\"");';
   var res = cmdDeps(s);
 
   it('path', function (){
@@ -21,7 +21,7 @@ describe('get the right deps', function (){
   });
 
   it('reg & comment', function (){
-    var s = '(1)/*\n*/ / require("a")';
+    var s = '(1)/*\n*/ / require("a");';
     var res = cmdDeps(s, true).map(function (o){
       return o.path;
     });
@@ -30,51 +30,51 @@ describe('get the right deps', function (){
   });
 
   it('include async', function (){
-    var s = 'require.async("a")';
+    var s = 'require.async("a");';
     var res = cmdDeps(s, function (){
       return '1';
     }, true);
 
-    expect(res).to.eql('require.async("1")');
+    expect(res).to.eql('require.async("1");');
 
-    s = 'require["async"]("a")';
+    s = 'require["async"]("a");';
     res = cmdDeps(s, function (){
       return '1';
     }, true);
 
-    expect(res).to.eql('require["async"]("1")');
+    expect(res).to.eql('require["async"]("1");');
 
-    s = 'require.async(["a", "b"])';
+    s = 'require.async(["a", "b"]);';
     res = cmdDeps(s, function (){
       return '1';
     }, true);
 
-    expect(res).to.eql('require.async(["1", "1"])');
+    expect(res).to.eql('require.async(["1", "1"]);');
 
-    s = 'require["async"](["a", "b"])';
+    s = 'require["async"](["a", "b"]);';
     res = cmdDeps(s, function (){
       return '1';
     }, true);
 
-    expect(res).to.eql('require["async"](["1", "1"])');
+    expect(res).to.eql('require["async"](["1", "1"]);');
   });
 
   it('async flag', function (){
-    var s = 'require.async("a")';
+    var s = 'require.async("a");';
     var res = cmdDeps(s, function (path, flag){
       return flag;
     }, true);
 
-    expect(res).to.eql('require.async("async")');
+    expect(res).to.eql('require.async("async");');
   });
 
   it('custom flag', function (){
-    var s = 'require.custom("a")';
+    var s = 'require.custom("a");';
     var res = cmdDeps(s, function (path, flag){
       return flag;
     }, true);
 
-    expect(res).to.eql('require.custom("custom")');
+    expect(res).to.eql('require.custom("custom");');
   });
 
   it('return', function (){
@@ -99,14 +99,14 @@ describe('get the right deps', function (){
   });
 
   it('block & reg 2', function (){
-    var s = 'return {}/require("a")';
+    var s = 'return {}/require("a");';
     var res = cmdDeps(s);
 
     expect(res.length).to.eql(1);
   });
 
   it('block & reg 3', function (){
-    var s = 'v={}/require("a")';
+    var s = 'v={}/require("a");';
     var res = cmdDeps(s);
 
     expect(res.length).to.eql(1);
@@ -143,28 +143,28 @@ describe('ignores', function (){
   });
 
   it('in ifstmt with no {}', function (){
-    var s = 'if(true)/require("a")/';
+    var s = 'if(true)/require("a")/;';
     var res = cmdDeps(s);
 
     expect(res.length).to.eql(0);
   });
 
   it('in dostmt with no {}', function (){
-    var s = 'do /require("a")/.test(s); while(false)';
+    var s = 'do /require("a")/.test(s); while(false);';
     var res = cmdDeps(s);
 
     expect(res.length).to.eql(0);
   });
 
   it('reg / reg', function (){
-    var s = '/require("a")/ / /require("b")';
+    var s = '/require("a")/ / /require("b")/;';
     var res = cmdDeps(s);
 
     expect(res.length).to.eql(0);
   });
 
   it('ignore variable', function (){
-    var s = 'require("a" + b)';
+    var s = 'require("a" + b);';
     var res = cmdDeps(s);
 
     expect(res.length).to.eql(0);
@@ -192,34 +192,34 @@ describe('ignores', function (){
   });
 
   it('ignore async', function (){
-    var s = 'require.async("a")';
+    var s = 'require.async("a");';
     var res = cmdDeps(s);
 
     expect(res.length).to.eql(0);
   });
 
   it('block & reg 1', function (){
-    var s = '{}/require("a")/';
+    var s = '{}/require("a")/;';
     var res = cmdDeps(s);
     expect(res.length).to.eql(0);
   });
 
   it('block & reg 2', function (){
-    var s = 'return\n{}/require("a")/';
+    var s = 'return\n{}/require("a")/;';
     var res = cmdDeps(s);
 
     expect(res.length).to.eql(0);
   });
 
   it('block & reg 3', function (){
-    var s = '()=>{}/require("a")/';
+    var s = '()=>{}/require("a")/;';
     var res = cmdDeps(s);
 
     expect(res.length).to.eql(0);
   });
 
   it('block & reg 4', function (){
-    var s = '(1)\n{}/require("a")/';
+    var s = '(1)\n{}/require("a")/;';
     var res = cmdDeps(s);
 
     expect(res.length).to.eql(0);
@@ -228,7 +228,7 @@ describe('ignores', function (){
 
 describe('callback', function (){
   it('none', function (){
-    var s = 'test("a")';
+    var s = 'test("a");';
     var res = cmdDeps(s, function (){
       return '1';
     });
@@ -237,12 +237,12 @@ describe('callback', function (){
   });
 
   it('one', function (){
-    var s = 'require("a")';
+    var s = 'require("a");';
     var res = cmdDeps(s, function (){
       return '1';
     });
 
-    expect(res).to.eql('require("1")');
+    expect(res).to.eql('require("1");');
   });
 
   it('two', function (){

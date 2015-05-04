@@ -7,14 +7,14 @@
 var parser = require('./lib/parser');
 
 // Parse dependencies
-function parseDependencies(s, replace, async){
+function parseDependencies(str, replace, async){
   if (replace === true) {
     async = true;
-    replace = null;
+    replace = undefined;
   }
 
-  if (s.indexOf('require') === -1) {
-    return replace ? s : [];
+  if (str.indexOf('require') === -1) {
+    return replace ? str : [];
   }
 
   var REQUIRERE = async
@@ -23,7 +23,7 @@ function parseDependencies(s, replace, async){
   var FLAGRE = /^require\s*(?:(?:\.\s*([a-zA-Z_$][\w$]*))|(?:\[\s*(['"])(.*?)\2\s*\]))/;
   var CHAINRE = /^[\w$]+(?:\s*\.\s*[\w$]+)*/;
 
-  var index = 0, peek = '', length = s.length, isReg = 1, isReturn = 0, meta = [];
+  var index = 0, peek = '', length = str.length, isReg = 1, isReturn = 0, meta = [];
   var parentheseState = 0, parentheseStack = [], braceState = 0, braceStack = [];
   var mod = '', modStart = 0, modEnd = 0, modName = 0, modParenthese = [], flag = null;
 
@@ -45,14 +45,14 @@ function parseDependencies(s, replace, async){
       readch();
 
       if (peek === '/') {
-        index = s.indexOf('\n', index);
+        index = str.indexOf('\n', index);
 
         if (index === -1) {
-          index = s.length;
+          index = str.length;
         }
       } else if (peek === '*') {
-        var i = s.indexOf('\n', index);
-        index = s.indexOf('*/', index);
+        var i = str.indexOf('\n', index);
+        index = str.indexOf('*/', index);
 
         if (index === -1) {
           index = length;
@@ -105,16 +105,16 @@ function parseDependencies(s, replace, async){
           modName = 0;
           modEnd = index;
 
-          mod = s.substring(modStart, modEnd);
+          mod = str.substring(modStart, modEnd);
 
           if (replace) {
             var replaced = parser(mod, replace, { flag: flag });
 
-            s = s.slice(0, modStart) + replaced + s.slice(modEnd);
+            str = str.slice(0, modStart) + replaced + str.slice(modEnd);
 
             if (replaced.length !== mod.length) {
               index = modStart + replaced.length;
-              length = s.length;
+              length = str.length;
             }
           } else {
             meta = meta.concat(parser(mod, { flag: flag }));
@@ -136,7 +136,7 @@ function parseDependencies(s, replace, async){
       isReg = !braceState;
       isReturn = 0;
     } else {
-      var next = s.charAt(index);
+      var next = str.charAt(index);
 
       if (peek === ';') {
         braceState = 0;
@@ -152,10 +152,10 @@ function parseDependencies(s, replace, async){
     }
   }
 
-  return replace ? s : meta;
+  return replace ? str : meta;
 
   function readch(){
-    peek = s.charAt(index++);
+    peek = str.charAt(index++);
   }
 
   function isBlank(){
@@ -169,11 +169,11 @@ function parseDependencies(s, replace, async){
   function dealQuote(){
     var start = index;
     var c = peek;
-    var end = s.indexOf(c, start);
+    var end = str.indexOf(c, start);
 
     if (end === -1) {
       index = length;
-    } else if (s.charAt(end - 1) !== '\\') {
+    } else if (str.charAt(end - 1) !== '\\') {
       index = end + 1;
     } else {
       while (index < length) {
@@ -217,8 +217,8 @@ function parseDependencies(s, replace, async){
   }
 
   function dealWord(){
-    var s2 = s.slice(index - 1);
-    var r = /^[\w$]+/.exec(s2)[0];
+    var substr = str.slice(index - 1);
+    var r = /^[\w$]+/.exec(substr)[0];
 
     parentheseState = {
       'if': 1,
@@ -252,34 +252,34 @@ function parseDependencies(s, replace, async){
     }.hasOwnProperty(r);
 
     if (r === 'require') {
-      modName = REQUIRERE.test(s2);
+      modName = REQUIRERE.test(substr);
     }
 
     if (r === 'require' && modName) {
       modStart = index - 1;
-      r = REQUIRERE.exec(s2)[0];
+      r = REQUIRERE.exec(substr)[0];
       index += r.length - 3;
-      flag = FLAGRE.exec(s2);
+      flag = FLAGRE.exec(substr);
       flag = flag ? flag[1] || flag[3] : null;
     } else {
-      index += CHAINRE.exec(s2)[0].length - 1;
+      index += CHAINRE.exec(substr)[0].length - 1;
     }
   }
 
   function isNumber(){
-    return /\d/.test(peek) || peek === '.' && /\d/.test(s.charAt(index));
+    return /\d/.test(peek) || peek === '.' && /\d/.test(str.charAt(index));
   }
 
   function dealNumber(){
-    var s2 = s.slice(index - 1);
     var r;
+    var substr = str.slice(index - 1);
 
     if (peek === '.') {
-      r = /^\.\d+(?:E[+-]?\d*)?\s*/i.exec(s2)[0];
-    } else if (/^0x[\da-f]*/i.test(s2)) {
-      r = /^0x[\da-f]*\s*/i.exec(s2)[0];
+      r = /^\.\d+(?:E[+-]?\d*)?\s*/i.exec(substr)[0];
+    } else if (/^0x[\da-f]*/i.test(substr)) {
+      r = /^0x[\da-f]*\s*/i.exec(substr)[0];
     } else {
-      r = /^\d+\.?\d*(?:E[+-]?\d*)?\s*/i.exec(s2)[0];
+      r = /^\d+\.?\d*(?:E[+-]?\d*)?\s*/i.exec(substr)[0];
     }
 
     index += r.length - 1;
@@ -287,4 +287,5 @@ function parseDependencies(s, replace, async){
   }
 }
 
+// Exports
 module.exports = parseDependencies;
