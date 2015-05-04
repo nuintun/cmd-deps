@@ -56,8 +56,6 @@ describe('get the right deps', function (){
       return '1';
     }, true);
 
-    console.log(cmdDeps(s, true));
-
     expect(res).to.eql('require["async"](["1", "1"])');
   });
 
