@@ -25,6 +25,7 @@ require('a');
 if(true)/require('e')/;
 do /require('f')/.test(s); while(false);
 ```
+
 parser output:
 ```js
 {
