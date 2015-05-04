@@ -20,7 +20,7 @@ function parseDependencies(s, replace, async){
   var REQUIRERE = async
     ? /^require\s*(?:(?:\.\s*[a-zA-Z_$][\w$]*)|(?:\[\s*(['"]).*?\1\s*\]))?\s*\(\s*(?:['"]|\[)/
     : /^require\s*\(\s*['"]/;
-  var FLAGRE = /^require\s*(?:(?:\.\s*([a-zA-Z_$][\w$]*))|(?:\[\s*(['"])(.*)?\2\s*\]))/;
+  var FLAGRE = /^require\s*(?:(?:\.\s*([a-zA-Z_$][\w$]*))|(?:\[\s*(['"])(.*?)\2\s*\]))/;
   var CHAINRE = /^[\w$]+(?:\s*\.\s*[\w$]+)*/;
 
   var index = 0, peek = '', length = s.length, isReg = 1, isReturn = 0, meta = [];
@@ -117,7 +117,7 @@ function parseDependencies(s, replace, async){
               length = s.length;
             }
           } else {
-            meta = meta.concat(parser(mod, { flag: flag }).meta);
+            meta = meta.concat(parser(mod, { flag: flag }));
           }
         }
       }

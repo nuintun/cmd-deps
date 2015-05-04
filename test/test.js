@@ -36,6 +36,29 @@ describe('get the right deps', function (){
     }, true);
 
     expect(res).to.eql('require.async("1")');
+
+    s = 'require["async"]("a")';
+    res = cmdDeps(s, function (){
+      return '1';
+    }, true);
+
+    expect(res).to.eql('require["async"]("1")');
+
+    s = 'require.async(["a", "b"])';
+    res = cmdDeps(s, function (){
+      return '1';
+    }, true);
+
+    expect(res).to.eql('require.async(["1", "1"])');
+
+    s = 'require["async"](["a", "b"])';
+    res = cmdDeps(s, function (){
+      return '1';
+    }, true);
+
+    console.log(cmdDeps(s, true));
+
+    expect(res).to.eql('require["async"](["1", "1"])');
   });
 
   it('async flag', function (){
