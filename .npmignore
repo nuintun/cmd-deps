@@ -28,3 +28,6 @@ Makefile
 # Logs
 logs
 *.log
+
+# benchmark
+benchmark
