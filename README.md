@@ -1,13 +1,13 @@
-cmd-deps
+umd-deps
 =========
 
->Get commonjs dependences
+>Get cmd or amd dependences
 
 >[![NPM Version][npm-image]][npm-url] [![Download Status][download-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Test Coverage][coveralls-image]][coveralls-url] [![Dependencies][david-image]][david-url]
 
 ### Installation
 ```
-npm install cmd-deps
+npm install umd-deps
 ```
 
 ### Api
@@ -28,9 +28,9 @@ do /require('f')/.test(s); while(false);
 
 parser output:
 ```js
-{
-  "path": "a",
-  "flag": null
+{  
+  "flag": null,
+  "path": "a"
 }
 ```
 
@@ -38,12 +38,12 @@ parser output:
 
 [MIT](LICENSE)
 
-[travis-image]: http://img.shields.io/travis/Nuintun/cmd-deps.svg?style=flat-square
-[travis-url]: https://travis-ci.org/Nuintun/cmd-deps
-[coveralls-image]: http://img.shields.io/coveralls/Nuintun/cmd-deps/master.svg?style=flat-square
-[coveralls-url]: https://coveralls.io/r/Nuintun/cmd-deps?branch=master
-[david-image]: http://img.shields.io/david/nuintun/cmd-deps.svg?style=flat-square
-[david-url]: https://david-dm.org/Nuintun/cmd-deps
-[npm-image]: http://img.shields.io/npm/v/cmd-deps.svg?style=flat-square
-[npm-url]: https://www.npmjs.org/package/cmd-deps
-[download-image]: http://img.shields.io/npm/dm/cmd-deps.svg?style=flat-square
+[travis-image]: http://img.shields.io/travis/Nuintun/umd-deps.svg?style=flat-square
+[travis-url]: https://travis-ci.org/Nuintun/umd-deps
+[coveralls-image]: http://img.shields.io/coveralls/Nuintun/umd-deps/master.svg?style=flat-square
+[coveralls-url]: https://coveralls.io/r/Nuintun/umd-deps?branch=master
+[david-image]: http://img.shields.io/david/nuintun/umd-deps.svg?style=flat-square
+[david-url]: https://david-dm.org/Nuintun/umd-deps
+[npm-image]: http://img.shields.io/npm/v/umd-deps.svg?style=flat-square
+[npm-url]: https://www.npmjs.org/package/umd-deps
+[download-image]: http://img.shields.io/npm/dm/umd-deps.svg?style=flat-square
