@@ -21,7 +21,7 @@ describe('get the right deps', function (){
   });
 
   it('reg & comment', function (){
-    var s = '(1)/*\n*/ / require("a");return/*\nreturn*/;';
+    var s = '(1)/*\n*/ / require("a");return/*\nreturn*/;\\';
     var res = cmdDeps(s, true).map(function (o){
       return o.path;
     });
