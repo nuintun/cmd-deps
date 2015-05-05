@@ -1,6 +1,6 @@
 {
   "name": "cmd-deps",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Get commonjs dependences",
   "author": {
     "name": "nuintun",

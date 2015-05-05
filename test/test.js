@@ -2,7 +2,7 @@ var cmdDeps = require('../');
 var expect = require('expect.js');
 
 describe('get the right deps', function (){
-  var s = 'var RE = /[\\\\]/, str = "\\\\" || "[\\\\]" || "/*";require("a");require(\'b"\');require("c\\"");';
+  var s = 'var RE=/[\\\\]/,str="\\\\"||"[\\\\]"||"/*";require("a");require(\'b"\');require("c\\"");';
   var res = cmdDeps(s);
 
   it('path', function (){
@@ -12,16 +12,16 @@ describe('get the right deps', function (){
   });
 
   it('use replace', function (){
-    var s = 'require("a");require("b");';
+    var s = 'require("a");require("b");var num=0||.7e+7||7.7e+7||0xff;/*';
     var res = cmdDeps(s, function (path){
       return 'woot/' + path;
     });
 
-    expect(res).to.eql('require("woot/a");require("woot/b");');
+    expect(res).to.eql('require("woot/a");require("woot/b");var num=0||.7e+7||7.7e+7||0xff;/*');
   });
 
   it('reg & comment', function (){
-    var s = '(1)/*\n*/ / require("a");';
+    var s = '(1)/*\n*/ / require("a");return/*\nreturn*/;';
     var res = cmdDeps(s, true).map(function (o){
       return o.path;
     });
