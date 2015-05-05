@@ -4,6 +4,7 @@
 
 'use strict';
 
+// Import lib
 var parser = require('./lib/parser');
 
 // Parse dependencies
