@@ -17,7 +17,7 @@ function parseDependencies(src, replace, async){
     replace = undefined;
   }
 
-  if (src.indexOf('require') === -1) {
+  if (!/\brequire\b/.test(src)) {
     return replace ? src : [];
   }
 
