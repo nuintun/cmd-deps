@@ -8,14 +8,17 @@
 var parser = require('./lib/parser');
 
 // Parse dependencies
-function parseDependencies(str, replace, async){
+function parseDependencies(src, replace, async){
+  // Is Buffer
+  if (Buffer.isBuffer(src)) src = src.toString();
+
   if (replace === true) {
     async = true;
     replace = undefined;
   }
 
-  if (str.indexOf('require') === -1) {
-    return replace ? str : [];
+  if (src.indexOf('require') === -1) {
+    return replace ? src : [];
   }
 
   var REQUIRERE = async
@@ -24,7 +27,7 @@ function parseDependencies(str, replace, async){
   var FLAGRE = /^require\s*(?:(?:\.\s*([a-zA-Z_$][\w$]*))|(?:\[\s*(['"])(.*?)\2\s*\]))/;
   var CHAINRE = /^[\w$]+(?:\s*\.\s*[\w$]+)*/;
 
-  var index = 0, peek = '', length = str.length, isReg = 1, isReturn = 0, meta = [];
+  var index = 0, peek = '', length = src.length, isReg = 1, isReturn = 0, meta = [];
   var parentheseState = 0, parentheseStack = [], braceState = 0, braceStack = [];
   var mod = '', modStart = 0, modEnd = 0, modName = 0, modParenthese = [], flag = null;
 
@@ -46,14 +49,14 @@ function parseDependencies(str, replace, async){
       readch();
 
       if (peek === '/') {
-        index = str.indexOf('\n', index);
+        index = src.indexOf('\n', index);
 
         if (index === -1) {
-          index = str.length;
+          index = src.length;
         }
       } else if (peek === '*') {
-        var i = str.indexOf('\n', index);
-        index = str.indexOf('*/', index);
+        var i = src.indexOf('\n', index);
+        index = src.indexOf('*/', index);
 
         if (index === -1) {
           index = length;
@@ -106,16 +109,16 @@ function parseDependencies(str, replace, async){
           modName = 0;
           modEnd = index;
 
-          mod = str.substring(modStart, modEnd);
+          mod = src.substring(modStart, modEnd);
 
           if (replace) {
             var replaced = parser(mod, replace, { flag: flag });
 
-            str = str.slice(0, modStart) + replaced + str.slice(modEnd);
+            src = src.slice(0, modStart) + replaced + src.slice(modEnd);
 
             if (replaced.length !== mod.length) {
               index = modStart + replaced.length;
-              length = str.length;
+              length = src.length;
             }
           } else {
             meta = meta.concat(parser(mod, { flag: flag }));
@@ -137,7 +140,7 @@ function parseDependencies(str, replace, async){
       isReg = !braceState;
       isReturn = 0;
     } else {
-      var next = str.charAt(index);
+      var next = src.charAt(index);
 
       if (peek === ';') {
         braceState = 0;
@@ -153,10 +156,10 @@ function parseDependencies(str, replace, async){
     }
   }
 
-  return replace ? str : meta;
+  return replace ? src : meta;
 
   function readch(){
-    peek = str.charAt(index++);
+    peek = src.charAt(index++);
   }
 
   function isBlank(){
@@ -170,11 +173,11 @@ function parseDependencies(str, replace, async){
   function dealQuote(){
     var start = index;
     var c = peek;
-    var end = str.indexOf(c, start);
+    var end = src.indexOf(c, start);
 
     if (end === -1) {
       index = length;
-    } else if (str.charAt(end - 1) !== '\\') {
+    } else if (src.charAt(end - 1) !== '\\') {
       index = end + 1;
     } else {
       while (index < length) {
@@ -218,7 +221,7 @@ function parseDependencies(str, replace, async){
   }
 
   function dealWord(){
-    var substr = str.slice(index - 1);
+    var substr = src.slice(index - 1);
     var r = /^[\w$]+/.exec(substr)[0];
 
     parentheseState = {
@@ -268,12 +271,12 @@ function parseDependencies(str, replace, async){
   }
 
   function isNumber(){
-    return /\d/.test(peek) || peek === '.' && /\d/.test(str.charAt(index));
+    return /\d/.test(peek) || peek === '.' && /\d/.test(src.charAt(index));
   }
 
   function dealNumber(){
     var r;
-    var substr = str.slice(index - 1);
+    var substr = src.slice(index - 1);
 
     if (peek === '.') {
       r = /^\.\d+(?:E[+-]?\d*)?\s*/i.exec(substr)[0];
