@@ -24,14 +24,26 @@ require('a');
 'require("d")';
 if(true)/require('e')/;
 do /require('f')/.test(s); while(false);
+require.async('g');
+require.async(['h']);
 ```
 
 parser output:
 ```js
-{  
-  "flag": null,
-  "path": "a"
-}
+[
+  {  
+    "flag": null,
+    "path": "a"
+  },
+  {  
+    "flag": 'async',
+    "path": "g"
+  },
+  {  
+      "flag": 'async',
+      "path": "h"
+    }
+]
 ```
 
 ## License
