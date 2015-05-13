@@ -11,7 +11,7 @@ npm install umd-deps
 ```
 
 ### Api
-* parseDependencies(code:String, callback:Function = null, flag:Boolean = false):String
+* parseDependencies(code:String, replace:Function = null, flag:Boolean = false):String
 * parseDependencies(code:String, flag:Boolean = false):Array
   * flag means if use "require.async" like, the result should have a property "flag" of "async"
 
