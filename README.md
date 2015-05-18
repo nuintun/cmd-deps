@@ -3,7 +3,8 @@ umd-deps
 
 >Get cmd or amd dependences
 
->[![NPM Version][npm-image]][npm-url] [![Download Status][download-image]][npm-url] [![Linux Status][travis-image]][travis-url] [![Windows Status][appveyor-image]][appveyor-url] [![Test Coverage][coveralls-image]][coveralls-url] [![Dependencies][david-image]][david-url]
+>[![NPM Version][npm-image]][npm-url] [![Download Status][download-image]][npm-url] [![Linux Status][travis-image]][travis-url] [![Windows Status][appveyor-image]][appveyor-url]
+>[![Test Coverage][coveralls-image]][coveralls-url] [![Dependencies][david-image]][david-url]
 
 ### Installation
 ```
