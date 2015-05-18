@@ -40,9 +40,9 @@ parser output:
     "path": "g"
   },
   {  
-      "flag": 'async',
-      "path": "h"
-    }
+    "flag": 'async',
+    "path": "h"
+  }
 ]
 ```
 
