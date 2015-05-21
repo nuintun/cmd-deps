@@ -55,14 +55,14 @@ parser output:
 
 [MIT](LICENSE)
 
-[travis-image]: http://img.shields.io/travis/Nuintun/umd-deps.svg?style=flat-square&label=linux
-[travis-url]: https://travis-ci.org/Nuintun/umd-deps
-[appveyor-image]: https://img.shields.io/appveyor/ci/Nuintun/umd-deps.svg?style=flat-square&label=windows
-[appveyor-url]: https://ci.appveyor.com/project/Nuintun/umd-deps
-[coveralls-image]: http://img.shields.io/coveralls/Nuintun/umd-deps/master.svg?style=flat-square
-[coveralls-url]: https://coveralls.io/r/Nuintun/umd-deps?branch=master
+[travis-image]: http://img.shields.io/travis/nuintun/umd-deps.svg?style=flat-square&label=linux
+[travis-url]: https://travis-ci.org/nuintun/umd-deps
+[appveyor-image]: https://img.shields.io/appveyor/ci/nuintun/umd-deps.svg?style=flat-square&label=windows
+[appveyor-url]: https://ci.appveyor.com/project/nuintun/umd-deps
+[coveralls-image]: http://img.shields.io/coveralls/nuintun/umd-deps/master.svg?style=flat-square
+[coveralls-url]: https://coveralls.io/r/nuintun/umd-deps?branch=master
 [david-image]: http://img.shields.io/david/nuintun/umd-deps.svg?style=flat-square
-[david-url]: https://david-dm.org/Nuintun/umd-deps
+[david-url]: https://david-dm.org/nuintun/umd-deps
 [npm-image]: http://img.shields.io/npm/v/umd-deps.svg?style=flat-square
 [npm-url]: https://www.npmjs.org/package/umd-deps
 [download-image]: http://img.shields.io/npm/dm/umd-deps.svg?style=flat-square
