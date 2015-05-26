@@ -1,6 +1,6 @@
 {
   "name": "umd-deps",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Get cmd or amd dependences",
   "author": {
     "name": "nuintun",

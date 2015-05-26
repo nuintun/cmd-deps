@@ -5,6 +5,7 @@
 'use strict';
 
 // Import lib
+var util = require('./lib/util');
 var parser = require('./lib/parser');
 
 // Parse dependencies
@@ -17,7 +18,7 @@ function parseDependencies(src, replace, async){
     replace = undefined;
   }
 
-  if (!/\brequire\b/.test(src)) {
+  if (!util.string(src) || !/\brequire\b/.test(src)) {
     return replace ? src : [];
   }
 
