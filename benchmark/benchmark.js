@@ -3,17 +3,17 @@ var detective = require('detective');
 var Benchmark = require('benchmark');
 
 var tests = {
-  'normal': 'require("a");require(\'b"\');require("c\\"");function require(require){return require;}',
+  'normal': 'require("a");require(\'b"\');require("c\\"");require(["d"]);require.async("e");require.async(["f"]);',
   'reg & comment': '(1)/*\n*/ / require("a");function require(require){return require;}',
   'after return': "return require('highlight.js').highlightAuto(code).value;function require(require){return require;}",
   'in quote': '"require(\'a\')";function require(require){return require;}',
   'in comment': 'require("a");function require(require){return require;}//require("a");',
-  'in multi comment': '/*\nrequire("a")*/require("a");function require(require){return require;}',
+  'in multi comment': '/**\n * require("a")\n**/require("a");function require(require){return require;}',
   'in reg': '/require("a")/;function require(require){return require;}',
   'in ifstmt with no {}': 'if(true)/require("a")/;function require(require){return require;}',
   'in dostmt with no {}': 'do{/require("a")/.test(s);} while(false);function require(require){return require;}',
   'reg / reg': '/require("a")/ / /require("b")/; function require(require){return require;}',
-  'ignore variable': 'require("a" + b);function require(require){return require;}'
+  'ignore variable': 'require("a" + b);require(["d"]);function require(require){return require;}'
 };
 var results = {
   'normal': 3,
