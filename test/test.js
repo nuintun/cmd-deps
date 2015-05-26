@@ -2,7 +2,7 @@ var udeps = require('../index');
 var expect = require('expect.js');
 
 describe('get the right deps', function (){
-  var s = 'var RE=/[\\\\]/,str="\\\\"||"[\\\\]"||"/*";require("a");require(\'b"\');require("c\\"");';
+  var s = 'var RE=/[\\\\]/,str="\\\\"||"[\\\\]"||"/*";require("a");require(\'b"\');require("c\\"");require(["d"]);';
   var res = udeps(s);
 
   it('path', function (){
