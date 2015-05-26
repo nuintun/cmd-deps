@@ -27,9 +27,22 @@ function parseDependencies(src, replace, async){
   var FLAGRE = /^require\s*(?:(?:\.\s*([a-zA-Z_$][\w$]*))|(?:\[\s*(['"])(.*?)\2\s*\]))/;
   var CHAINRE = /^[\w$]+(?:\s*\.\s*[\w$]+)*/;
 
-  var index = 0, peek = '', length = src.length, isReg = 1, isReturn = 0, meta = [];
-  var parentheseState = 0, parentheseStack = [], braceState = 0, braceStack = [];
-  var mod = '', modStart = 0, modEnd = 0, modName = 0, modParenthese = [], flag = null;
+  var index = 0;
+  var peek = '';
+  var length = src.length;
+  var isReg = 1;
+  var isReturn = 0;
+  var meta = [];
+  var parentheseState = 0;
+  var parentheseStack = [];
+  var braceState = 0;
+  var braceStack = [];
+  var mod = '';
+  var modStart = 0;
+  var modEnd = 0;
+  var modName = 0;
+  var modParenthese = [];
+  var flag = null;
 
   while (index < length) {
     readch();

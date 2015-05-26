@@ -35,7 +35,7 @@
     "acorn": "^2.0.1"
   },
   "devDependencies": {
-    "detective": "^4.0.3",
+    "detective": "^4.1.0",
     "benchmark": "^1.0.0",
     "expect.js": "^0.3.1"
   },
