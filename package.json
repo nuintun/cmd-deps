@@ -1,6 +1,6 @@
 {
   "name": "umd-deps",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "Get cmd or amd dependences",
   "author": {
     "name": "nuintun",
@@ -15,12 +15,7 @@
     "url": "https://github.com/nuintun/umd-deps/issues",
     "email": "nuintun@qq.com"
   },
-  "licenses": [
-    {
-      "type": "MIT",
-      "url": "https://github.com/nuintun/umd-deps/blob/master/LICENSE"
-    }
-  ],
+  "license": "MIT",
   "main": "index",
   "keywords": [
     "cmd",
