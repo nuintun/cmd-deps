@@ -1,6 +1,6 @@
 {
   "name": "umd-deps",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Get cmd or amd dependences",
   "author": {
     "name": "nuintun",
@@ -27,10 +27,10 @@
     "dependencies"
   ],
   "dependencies": {
-    "acorn": "^2.0.4"
+    "acorn": "^2.4.0"
   },
   "devDependencies": {
-    "detective": "^4.1.1",
+    "detective": "^4.2.0",
     "benchmark": "^1.0.0",
     "expect.js": "^0.3.1"
   },
