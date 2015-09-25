@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <title>Umd-deps by nuintun</title>
+    <title>Cmd-deps by nuintun</title>
     <link rel="stylesheet" href="stylesheets/styles.css">
     <link rel="stylesheet" href="stylesheets/github-dark.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
@@ -20,9 +20,9 @@
   <body>
       <div id="header">
         <nav>
-          <li class="fork"><a href="https://github.com/nuintun/umd-deps">View On GitHub</a></li>
-          <li class="downloads"><a href="https://github.com/nuintun/umd-deps/zipball/master">ZIP</a></li>
-          <li class="downloads"><a href="https://github.com/nuintun/umd-deps/tarball/master">TAR</a></li>
+          <li class="fork"><a href="https://github.com/nuintun/cmd-deps">View On GitHub</a></li>
+          <li class="downloads"><a href="https://github.com/nuintun/cmd-deps/zipball/master">ZIP</a></li>
+          <li class="downloads"><a href="https://github.com/nuintun/cmd-deps/tarball/master">TAR</a></li>
           <li class="title">DOWNLOADS</li>
         </nav>
       </div><!-- end header -->
@@ -31,7 +31,7 @@
 
       <section>
         <div id="title">
-          <h1>Umd-deps</h1>
+          <h1>Cmd-deps</h1>
           <p>Get cmd or amd dependences</p>
           <hr>
           <span class="credits left">Project maintained by <a href="https://github.com/nuintun">nuintun</a></span>
@@ -39,23 +39,23 @@
         </div>
 
         <h1>
-<a id="umd-deps" class="anchor" href="#umd-deps" aria-hidden="true"><span class="octicon octicon-link"></span></a>umd-deps</h1>
+<a id="cmd-deps" class="anchor" href="#cmd-deps" aria-hidden="true"><span class="octicon octicon-link"></span></a>cmd-deps</h1>
 
 <blockquote>
-<p>Get cmd or amd dependences</p>
+<p>Get cmd dependences</p>
 
-<p><a href="https://www.npmjs.org/package/umd-deps"><img src="http://img.shields.io/npm/v/umd-deps.svg?style=flat-square" alt="NPM Version"></a>
-<a href="https://www.npmjs.org/package/umd-deps"><img src="http://img.shields.io/npm/dm/umd-deps.svg?style=flat-square" alt="Download Status"></a>
-<a href="https://travis-ci.org/nuintun/umd-deps"><img src="http://img.shields.io/travis/nuintun/umd-deps.svg?style=flat-square&amp;label=linux" alt="Linux Status"></a>
-<a href="https://ci.appveyor.com/project/nuintun/umd-deps"><img src="https://img.shields.io/appveyor/ci/nuintun/umd-deps.svg?style=flat-square&amp;label=windows" alt="Windows Status"></a>
-<a href="https://coveralls.io/r/nuintun/umd-deps?branch=master"><img src="http://img.shields.io/coveralls/nuintun/umd-deps/master.svg?style=flat-square" alt="Test Coverage"></a>
-<a href="https://david-dm.org/nuintun/umd-deps"><img src="http://img.shields.io/david/nuintun/umd-deps.svg?style=flat-square" alt="Dependencies"></a></p>
+<p><a href="https://www.npmjs.org/package/cmd-deps"><img src="http://img.shields.io/npm/v/cmd-deps.svg?style=flat-square" alt="NPM Version"></a>
+<a href="https://www.npmjs.org/package/cmd-deps"><img src="http://img.shields.io/npm/dm/cmd-deps.svg?style=flat-square" alt="Download Status"></a>
+<a href="https://travis-ci.org/nuintun/cmd-deps"><img src="http://img.shields.io/travis/nuintun/cmd-deps.svg?style=flat-square&amp;label=linux" alt="Linux Status"></a>
+<a href="https://ci.appveyor.com/project/nuintun/cmd-deps"><img src="https://img.shields.io/appveyor/ci/nuintun/cmd-deps.svg?style=flat-square&amp;label=windows" alt="Windows Status"></a>
+<a href="https://coveralls.io/r/nuintun/cmd-deps?branch=master"><img src="http://img.shields.io/coveralls/nuintun/cmd-deps/master.svg?style=flat-square" alt="Test Coverage"></a>
+<a href="https://david-dm.org/nuintun/cmd-deps"><img src="http://img.shields.io/david/nuintun/cmd-deps.svg?style=flat-square" alt="Dependencies"></a></p>
 </blockquote>
 
 <h3>
 <a id="installation" class="anchor" href="#installation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Installation</h3>
 
-<pre><code>npm install umd-deps
+<pre><code>npm install cmd-deps
 </code></pre>
 
 <h3>
@@ -76,18 +76,18 @@
 
 <p>js:</p>
 
-<div class="highlight highlight-js"><pre><span class="pl-c1">require</span>(<span class="pl-s"><span class="pl-pds">'</span>a<span class="pl-pds">'</span></span>);
+<div class="highlight highlight-source-js"><pre><span class="pl-c1">require</span>(<span class="pl-s"><span class="pl-pds">'</span>a<span class="pl-pds">'</span></span>);
 <span class="pl-c">//require('b');</span>
 <span class="pl-sr"><span class="pl-pds">/</span>require('c')<span class="pl-pds">/</span></span>;
 <span class="pl-s"><span class="pl-pds">'</span>require("d")<span class="pl-pds">'</span></span>;
-<span class="pl-k">if</span>(<span class="pl-c1">true</span>)/<span class="pl-c1">require</span>(<span class="pl-s"><span class="pl-pds">'</span>e<span class="pl-pds">'</span></span>)/;
-<span class="pl-k">do</span> /<span class="pl-c1">require</span>(<span class="pl-s"><span class="pl-pds">'</span>f<span class="pl-pds">'</span></span>)/.<span class="pl-c1">test</span>(s); <span class="pl-k">while</span>(<span class="pl-c1">false</span>);
+<span class="pl-k">if</span>(<span class="pl-c1">true</span>)<span class="pl-k">/</span><span class="pl-c1">require</span>(<span class="pl-s"><span class="pl-pds">'</span>e<span class="pl-pds">'</span></span>)<span class="pl-k">/</span>;
+<span class="pl-k">do</span> <span class="pl-k">/</span><span class="pl-c1">require</span>(<span class="pl-s"><span class="pl-pds">'</span>f<span class="pl-pds">'</span></span>)<span class="pl-k">/</span>.<span class="pl-c1">test</span>(s); <span class="pl-k">while</span>(<span class="pl-c1">false</span>);
 <span class="pl-c1">require</span>.async(<span class="pl-s"><span class="pl-pds">'</span>g<span class="pl-pds">'</span></span>);
 <span class="pl-c1">require</span>.async([<span class="pl-s"><span class="pl-pds">'</span>h<span class="pl-pds">'</span></span>]);</pre></div>
 
 <p>parser output:</p>
 
-<div class="highlight highlight-js"><pre>[
+<div class="highlight highlight-source-js"><pre>[
   {  
     <span class="pl-s"><span class="pl-pds">"</span>flag<span class="pl-pds">"</span></span><span class="pl-k">:</span> <span class="pl-c1">null</span>,
     <span class="pl-s"><span class="pl-pds">"</span>path<span class="pl-pds">"</span></span><span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>a<span class="pl-pds">"</span></span>
