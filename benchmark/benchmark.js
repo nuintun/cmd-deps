@@ -33,7 +33,7 @@ Object.keys(tests).forEach(function (key){
   var suite = new Benchmark.Suite;
   var s = tests[key];
   // add tests
-  suite.add('umd-deps: ' + key, function (){
+  suite.add('cmd-deps: ' + key, function (){
     return udeps(s).length === results[key];
   }).add('detective: ' + key, function (){
     return detective(s).length === results[key];
