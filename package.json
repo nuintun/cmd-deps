@@ -1,18 +1,18 @@
 {
-  "name": "umd-deps",
-  "version": "0.1.2",
+  "name": "cmd-deps",
+  "version": "0.0.1",
   "description": "Get cmd or amd dependences",
   "author": {
     "name": "nuintun",
     "email": "nuintun@qq.com"
   },
-  "homepage": "https://nuintun.github.io/umd-deps",
+  "homepage": "https://nuintun.github.io/cmd-deps",
   "repository": {
     "type": "git",
-    "url": "git://github.com/nuintun/umd-deps.git"
+    "url": "git://github.com/nuintun/cmd-deps.git"
   },
   "bugs": {
-    "url": "https://github.com/nuintun/umd-deps/issues",
+    "url": "https://github.com/nuintun/cmd-deps/issues",
     "email": "nuintun@qq.com"
   },
   "license": "MIT",
