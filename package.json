@@ -19,8 +19,6 @@
   "main": "index",
   "keywords": [
     "cmd",
-    "amd",
-    "umd",
     "require",
     "common",
     "commonjs",
