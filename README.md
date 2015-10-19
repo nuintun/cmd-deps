@@ -1,7 +1,7 @@
 cmd-deps
 =========
 
->Get cmd dependences
+>Transform cmd and get cmd dependences
 
 >[![NPM Version][npm-image]][npm-url]
 >[![Download Status][download-image]][npm-url]
