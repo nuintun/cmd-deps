@@ -4,13 +4,13 @@
 
 'use strict';
 
-// Import lib
+// import lib
 var util = require('./lib/util');
 var parser = require('./lib/parser');
 
-// Parse dependencies
+// parse dependencies
 function parseDependencies(src, replace, async){
-  // Is Buffer
+  // is Buffer
   if (Buffer.isBuffer(src)) src = src.toString();
 
   if (replace === true) {
@@ -305,5 +305,5 @@ function parseDependencies(src, replace, async){
   }
 }
 
-// Exports
+// exports
 module.exports = parseDependencies;

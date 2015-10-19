@@ -1,3 +1,9 @@
+/**
+ * Created by nuintun on 2015/4/29.
+ */
+
+'use strict';
+
 var udeps = require('../index');
 var detective = require('detective');
 var Benchmark = require('benchmark');
