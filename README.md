@@ -16,12 +16,12 @@ npm install cmd-deps
 ```
 
 ### Api
-* parseDependencies(code:String, replace:Function = null, flag:Boolean = false):String
-* parseDependencies(code:String, flag:Boolean = false):Array
+* parseDependencies(code:String, replace:Function, flag:Boolean):String
+* parseDependencies(code:String, flag:Boolean):Array
   * flag means if use "require.async" like, the result should have a property "flag" of "async"
 
 ### Example
-js:
+source:
 ```js
 require('a');
 //require('b');
@@ -31,6 +31,15 @@ if(true)/require('e')/;
 do /require('f')/.test(s); while(false);
 require.async('g');
 require.async(['h']);
+```
+
+js:
+```js
+var parseDependencies = require('cmd-deps');
+var deps = parseDependencies(source, true);
+
+// print dependencies
+console.log(deps);
 ```
 
 parser output:
