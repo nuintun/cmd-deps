@@ -1,6 +1,6 @@
 {
   "name": "cmd-deps",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Transform cmd and get cmd dependences",
   "author": {
     "name": "nuintun",
@@ -22,6 +22,7 @@
     "require",
     "common",
     "commonjs",
+    "transform",
     "dependencies"
   ],
   "dependencies": {
