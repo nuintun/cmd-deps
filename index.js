@@ -33,7 +33,7 @@ function parseDependencies(src, replace, async){
   var length = src.length;
   var isReg = 1;
   var isReturn = 0;
-  var meta = [];
+  var deps = [];
   var parentheseState = 0;
   var parentheseStack = [];
   var braceState = 0;
@@ -135,7 +135,7 @@ function parseDependencies(src, replace, async){
               length = src.length;
             }
           } else {
-            meta = meta.concat(parser(mod, { flag: flag }));
+            deps = deps.concat(parser(mod, { flag: flag }));
           }
         }
       }
@@ -170,7 +170,7 @@ function parseDependencies(src, replace, async){
     }
   }
 
-  return replace ? src : meta;
+  return replace ? src : deps;
 
   function readch(){
     peek = src.charAt(index++);
