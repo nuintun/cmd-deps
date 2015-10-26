@@ -8,9 +8,15 @@
 var util = require('./lib/util');
 var parser = require('./lib/parser');
 
-// parse dependencies
-function parseDependencies(src, replace, async){
-  // is Buffer
+/**
+ * cmd-deps
+ * @param src
+ * @param replace
+ * @param async
+ * @returns {String|Array}
+ */
+module.exports = function (src, replace, async){
+  // is buffer
   if (Buffer.isBuffer(src)) src = src.toString();
 
   if (replace === true) {
@@ -303,7 +309,4 @@ function parseDependencies(src, replace, async){
     index += r.length - 1;
     isReg = 0;
   }
-}
-
-// exports
-module.exports = parseDependencies;
+};
