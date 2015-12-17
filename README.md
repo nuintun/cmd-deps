@@ -16,9 +16,10 @@ npm install cmd-deps
 ```
 
 ### Api
-* parseDependencies(code:String, replace:Function, flag:Boolean):String
-* parseDependencies(code:String, flag:Boolean):Array
-  * flag means if use "require.async" like, the result should have a property "flag" of "async"
+* parseDependencies(code:String, replace:Function, flags:Boolean|Array):String
+* parseDependencies(code:String, flags:Boolean|Array):Array
+  * flags means if use "require.async" like, the result should have a property "flag" of "async"
+  * if flags is boolean, it will be trasform to an array inside, ```true -> ['async']``` and ```false -> []```
 
 ### Example
 source:
@@ -45,15 +46,15 @@ console.log(deps);
 parser output:
 ```js
 [
-  {  
+  {
     "flag": null,
     "path": "a"
   },
-  {  
+  {
     "flag": 'async',
     "path": "g"
   },
-  {  
+  {
     "flag": 'async',
     "path": "h"
   }
