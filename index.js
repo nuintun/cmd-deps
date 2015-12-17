@@ -19,18 +19,22 @@ module.exports = function (src, replace, flags){
   // is buffer
   if (Buffer.isBuffer(src)) src = src.toString();
 
-  if (replace === true) {
-    flags = ['async'];
+  // normalize arguments
+  if (replace === true || Array.isArray(replace)) {
+    flags = replace === true ? ['async'] : replace;
     replace = undefined;
   }
 
+  // flags
   if (flags === true) {
     flags = ['async'];
   }
 
+  // is has require
   if (!util.string(src) || !/\brequire\b/.test(src)) {
     return replace ? src : [];
   }
 
-  return parser(src, replace, flags);
+  // return result
+  return parser(src, replace, { flags: flags });
 };
