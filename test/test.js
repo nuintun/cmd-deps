@@ -5,7 +5,7 @@ var parser = require('../lib/parser');
 describe('inside parser', function (){
   var s = 'require.async("a")';
 
-  it('two argument', function (){
+  it('second argument is object', function (){
     var res = parser(s, { flags: ['async'] });
 
     expect(res.map(function (o){
