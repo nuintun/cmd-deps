@@ -1,5 +1,22 @@
 var cdeps = require('../index');
 var expect = require('expect.js');
+var parser = require('../lib/parser');
+
+describe('inside parser', function (){
+  var s = 'require.async("a")';
+
+  it('two argument', function (){
+    var res = parser(s, { flags: ['async'] });
+
+    expect(res.map(function (o){
+      return o.flag;
+    })).to.eql(['async']);
+
+    expect(res.map(function (o){
+      return o.path;
+    })).to.eql(['a']);
+  });
+});
 
 describe('get the right deps', function (){
   var s = 'require("a");require(\'b"\');require("c\\"")';
@@ -42,6 +59,27 @@ describe('get the right deps', function (){
     }, true);
 
     expect(res).to.eql('require.async("a1")');
+
+    s = 'require["async"]("a");';
+    res = cdeps(s, function (){
+      return '1';
+    }, true);
+
+    expect(res).to.eql('require["async"]("1");');
+
+    s = 'require.async(["a", "b"]);';
+    res = cdeps(s, function (){
+      return '1';
+    }, true);
+
+    expect(res).to.eql('require.async(["1", "1"]);');
+
+    s = 'require["async"](["a", "b"]);';
+    res = cdeps(s, function (){
+      return '1';
+    }, true);
+
+    expect(res).to.eql('require["async"](["1", "1"]);');
   });
 
   it('async flag', function (){
