@@ -1,6 +1,6 @@
 {
   "name": "cmd-deps",
-  "version": "1.0.6",
+  "version": "2.0.0",
   "description": "Transform cmd and get cmd dependences",
   "author": {
     "name": "nuintun",
@@ -29,8 +29,6 @@
     "acorn": "^2.6.4"
   },
   "devDependencies": {
-    "detective": "^4.3.1",
-    "benchmark": "^1.0.0",
     "expect.js": "^0.3.1"
   },
   "readmeFilename": "README.md",
