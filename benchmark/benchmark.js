@@ -4,9 +4,12 @@
 
 'use strict';
 
+var fs = require('fs');
 var udeps = require('../index');
 var detective = require('detective');
 var Benchmark = require('benchmark');
+
+var disturb = fs.readFileSync('./disturb.js').toString();
 
 var tests = {
   'normal': 'require("a");require(\'b"\');require("c\\"");require(["d"]);require.async("e");require.async(["f"]);',
@@ -36,14 +39,18 @@ var results = {
 };
 
 Object.keys(tests).forEach(function (key){
+  tests[key] = tests[key] + '\n' + disturb;
+});
+
+Object.keys(tests).forEach(function (key){
   var suite = new Benchmark.Suite;
   var s = tests[key];
   // add tests
   suite.add('cmd-deps: ' + key, function (){
     return udeps(s).length === results[key];
   }).add('detective: ' + key, function (){
-    return detective(s).length === results[key];
-  })
+      return detective(s).length === results[key];
+    })
     // add listeners
     .on('cycle', function (event){
       console.log(String(event.target));
