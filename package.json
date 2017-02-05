@@ -26,7 +26,7 @@
     "dependencies"
   ],
   "dependencies": {
-    "acorn": "^4.0.4"
+    "acorn": "^4.0.8"
   },
   "devDependencies": {
     "expect.js": "^0.3.1"
