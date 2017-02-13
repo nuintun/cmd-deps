@@ -2,129 +2,129 @@ var cdeps = require('../index');
 var expect = require('expect.js');
 var parser = require('../lib/parser');
 
-describe('inside parser', function (){
+describe('inside parser', function() {
   var s = 'require.async("a")';
 
-  it('second argument is object', function (){
+  it('second argument is object', function() {
     var res = parser(s, { flags: ['async'] });
 
-    expect(res.map(function (o){
+    expect(res.map(function(o) {
       return o.flag;
     })).to.eql(['async']);
 
-    expect(res.map(function (o){
+    expect(res.map(function(o) {
       return o.path;
     })).to.eql(['a']);
   });
 });
 
-describe('get the right deps', function (){
+describe('get the right deps', function() {
   var s = 'require("a");require(\'b"\');require("c\\"")';
   var res = cdeps(s);
 
-  it('flag', function (){
-    expect(res.map(function (o){
+  it('flag', function() {
+    expect(res.map(function(o) {
       return o.flag;
     })).to.eql([null, null, null]);
   });
 
-  it('path', function (){
-    expect(res.map(function (o){
+  it('path', function() {
+    expect(res.map(function(o) {
       return o.path;
     })).to.eql(['a', 'b"', 'c"']);
   });
 
-  it('use replace', function (){
+  it('use replace', function() {
     var s = 'require("a");require("b");';
-    var res = cdeps(s, function (path){
+    var res = cdeps(s, function(path) {
       return 'woot/' + path;
     });
 
     expect(res).to.eql('require("woot/a");require("woot/b");');
   });
 
-  it('reg & comment', function (){
+  it('reg & comment', function() {
     var s = '(1)/*\n*/ / require("a")';
-    var res = cdeps(s, true).map(function (o){
+    var res = cdeps(s, true).map(function(o) {
       return o.path;
     });
 
     expect(res).to.eql(["a"]);
   });
 
-  it('include async', function (){
+  it('include async', function() {
     var s = 'require.async("a")';
-    var res = cdeps(s, function (path){
+    var res = cdeps(s, function(path) {
       return path + '1';
     }, true);
 
     expect(res).to.eql('require.async("a1")');
 
     s = 'require["async"]("a");';
-    res = cdeps(s, function (){
+    res = cdeps(s, function() {
       return '1';
     }, true);
 
     expect(res).to.eql('require["async"]("1");');
 
     s = 'require.async(["a", "b"]);';
-    res = cdeps(s, function (){
+    res = cdeps(s, function() {
       return '1';
     }, true);
 
     expect(res).to.eql('require.async(["1", "1"]);');
 
     s = 'require["async"](["a", "b"]);';
-    res = cdeps(s, function (){
+    res = cdeps(s, function() {
       return '1';
     }, true);
 
     expect(res).to.eql('require["async"](["1", "1"]);');
   });
 
-  it('async flag', function (){
+  it('async flag', function() {
     var s = 'require.async("a")';
     var res = cdeps(s, true);
 
     expect(res[0].flag).to.eql('async');
   });
 
-  it('custom flag', function (){
+  it('custom flag', function() {
     var s = 'require.custom("a")';
     var res = cdeps(s, ['custom']);
 
     expect(res[0].flag).to.eql('custom');
   });
 
-  it('return', function (){
+  it('return', function() {
     var s = "return require('highlight.js').highlightAuto(code).value;";
     var res = cdeps(s);
 
     expect(res.length).to.eql(1);
   });
 
-  it('callback', function (){
+  it('callback', function() {
     var s = 'require.async("slider", function(){\nalert("loaded");\n});';
     var res = cdeps(s, true);
 
     expect(res.length).to.eql(1);
   });
 
-  it('block & reg 1', function (){
+  it('block & reg 1', function() {
     var s = '({}/require("a"))';
     var res = cdeps(s);
 
     expect(res.length).to.eql(1);
   });
 
-  it('block & reg 2', function (){
+  it('block & reg 2', function() {
     var s = 'return {}/require("a")';
     var res = cdeps(s);
 
     expect(res.length).to.eql(1);
   });
 
-  it('block & reg 3', function (){
+  it('block & reg 3', function() {
     var s = 'v={}/require("a")';
     var res = cdeps(s);
 
@@ -132,149 +132,149 @@ describe('get the right deps', function (){
   });
 });
 
-describe('ignores', function (){
-  it('in quote', function (){
+describe('ignores', function() {
+  it('in quote', function() {
     var s = '"require(\'a\')"';
     var res = cdeps(s);
 
     expect(res.length).to.eql(0);
   });
 
-  it('in comment', function (){
+  it('in comment', function() {
     var s = '//require("a")';
     var res = cdeps(s);
 
     expect(res.length).to.eql(0);
   });
 
-  it('in multi comment', function (){
+  it('in multi comment', function() {
     var s = '/*\nrequire("a")*/';
     var res = cdeps(s);
 
     expect(res.length).to.eql(0);
   });
 
-  it('in reg', function (){
+  it('in reg', function() {
     var s = '/require("a")/';
     var res = cdeps(s);
 
     expect(res.length).to.eql(0);
   });
 
-  it('in ifstmt with no {}', function (){
+  it('in ifstmt with no {}', function() {
     var s = 'if(true)/require("a")/';
     var res = cdeps(s);
 
     expect(res.length).to.eql(0);
   });
 
-  it('in dostmt with no {}', function (){
+  it('in dostmt with no {}', function() {
     var s = 'do /require("a")/.test(s); while(false)';
     var res = cdeps(s);
 
     expect(res.length).to.eql(0);
   });
 
-  it('reg / reg', function (){
+  it('reg / reg', function() {
     var s = '/require("a")/ / /require("b")';
     var res = cdeps(s);
 
     expect(res.length).to.eql(0);
   });
 
-  it('ignore variable', function (){
+  it('ignore variable', function() {
     var s = 'require("a" + b)';
     var res = cdeps(s);
 
     expect(res.length).to.eql(0);
   });
 
-  it('unend string', function (){
+  it('unend string', function() {
     var s = 'require("a';
     var res = cdeps(s);
 
     expect(res.length).to.eql(0);
   });
 
-  it('unend comment', function (){
+  it('unend comment', function() {
     var s = '/*';
     var res = cdeps(s);
 
     expect(res.length).to.eql(0);
   });
 
-  it('unend reg', function (){
+  it('unend reg', function() {
     var s = '/abc';
     var res = cdeps(s);
 
     expect(res.length).to.eql(0);
   });
 
-  it('ignore async', function (){
+  it('ignore async', function() {
     var s = 'require.async("a")';
     var res = cdeps(s);
 
     expect(res.length).to.eql(0);
   });
 
-  it('block & reg 1', function (){
+  it('block & reg 1', function() {
     var s = '{}/require("a")/';
     var res = cdeps(s);
 
     expect(res.length).to.eql(0);
   });
 
-  it('block & reg 2', function (){
+  it('block & reg 2', function() {
     var s = 'return\n{}/require("a")/';
     var res = cdeps(s);
 
     expect(res.length).to.eql(0);
   });
 
-  it('block & reg 3', function (){
+  it('block & reg 3', function() {
     var s = '()=>{}/require("a")/';
     var res = cdeps(s);
 
     expect(res.length).to.eql(0);
   });
 
-  it('block & reg 4', function (){
+  it('block & reg 4', function() {
     var s = '(1)\n{}/require("a")/';
     var res = cdeps(s);
 
     expect(res.length).to.eql(0);
   });
 
-  it('require /**/', function (){
+  it('require /**/', function() {
     var s = 'require/**/("a")';
-    var res = cdeps(s, true).map(function (o){
+    var res = cdeps(s, true).map(function(o) {
       return o.path;
     });
 
     expect(res).to.eql(["a"]);
   });
 
-  it('require. /**/', function (){
+  it('require. /**/', function() {
     var s = 'require.async/**/("a")';
-    var res = cdeps(s, true).map(function (o){
+    var res = cdeps(s, true).map(function(o) {
       return o.path;
     });
 
     expect(res).to.eql(["a"]);
   });
 
-  it('require /**/ .', function (){
+  it('require /**/ .', function() {
     var s = 'require/**/.async("a")';
-    var res = cdeps(s, true).map(function (o){
+    var res = cdeps(s, true).map(function(o) {
       return o.path;
     });
 
     expect(res).to.eql(["a"]);
   });
 
-  it('require /**/ . /**/', function (){
+  it('require /**/ . /**/', function() {
     var s = 'require/**/.async/**/("a")';
-    var res = cdeps(s, true).map(function (o){
+    var res = cdeps(s, true).map(function(o) {
       return o.path;
     });
 
@@ -282,37 +282,37 @@ describe('ignores', function (){
   });
 });
 
-describe('callback', function (){
-  it('none', function (){
+describe('callback', function() {
+  it('none', function() {
     var s = 'test("a")';
-    var res = cdeps(s, function (){
+    var res = cdeps(s, function() {
       return '1';
     });
 
     expect(res).to.eql(s);
   });
 
-  it('one', function (){
+  it('one', function() {
     var s = 'require("a")';
-    var res = cdeps(s, function (path){
+    var res = cdeps(s, function(path) {
       return path + '1';
     });
 
     expect(res).to.eql('require("a1")');
   });
 
-  it('tow', function (){
+  it('tow', function() {
     var s = 'require("a");require("b");';
-    var res = cdeps(s, function (path){
+    var res = cdeps(s, function(path) {
       return path + '1';
     });
 
     expect(res).to.eql('require("a1");require("b1");');
   });
 
-  it('same length as item', function (){
+  it('same length as item', function() {
     var s = 'require("a");require("b");';
-    var res = cdeps(s, function (){
+    var res = cdeps(s, function() {
       return '123456789012';
     });
 
