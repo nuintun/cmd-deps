@@ -34,3 +34,9 @@ logs
 
 # benchmark
 benchmark
+
+# editorconfig
+.editorconfig
+
+# jsbeautifyrc
+.jsbeautifyrc

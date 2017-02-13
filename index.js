@@ -1,36 +1,33 @@
-/**
- * Created by nuintun on 2015/4/29.
- */
-
 'use strict';
 
-// import lib
+// Import lib
 var util = require('./lib/util');
 var parser = require('./lib/parser');
 
 /**
- * cmd-deps
+ * Cmd deps
+ *
  * @param src
  * @param replace
  * @param flags
  * @returns {String|Array}
  */
-module.exports = function (src, replace, flags){
-  // is buffer
+module.exports = function(src, replace, flags) {
+  // Is buffer
   if (Buffer.isBuffer(src)) src = src.toString();
 
-  // normalize arguments
+  // Normalize arguments
   if (replace === true || Array.isArray(replace)) {
     flags = replace === true ? ['async'] : replace;
     replace = undefined;
   }
 
-  // flags
+  // Flags
   if (flags === true) {
     flags = ['async'];
   }
 
-  // is has require
+  // Is has require
   if (!util.string(src) || !/\brequire\b/.test(src)) {
     return replace ? src : [];
   }
