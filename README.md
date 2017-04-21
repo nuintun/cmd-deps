@@ -1,5 +1,4 @@
-cmd-deps
-=========
+# cmd-deps
 
 >Transform cmd and get cmd dependences
 >
