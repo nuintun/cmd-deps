@@ -1,6 +1,6 @@
 {
   "name": "cmd-deps",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "description": "Transform cmd and get cmd dependences",
   "author": {
     "name": "nuintun",
@@ -26,7 +26,7 @@
     "dependencies"
   ],
   "dependencies": {
-    "acorn": "^5.1.1"
+    "acorn": "^5.1.2"
   },
   "devDependencies": {
     "expect.js": "^0.3.1"
