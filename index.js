@@ -1,16 +1,21 @@
+/**
+ * @module index
+ * @license MIT
+ * @version 2017/11/10
+ */
+
 'use strict';
 
 // Import lib
-var util = require('./lib/util');
-var parser = require('./lib/parser');
+const utils = require('./lib/utils');
+const parser = require('./lib/parser');
 
 /**
- * Cmd deps
- *
- * @param src
- * @param replace
- * @param flags
- * @returns {String|Array}
+ * @function cmd
+ * @param {string} src
+ * @param {Function} replace
+ * @param {Boolean} flags
+ * @returns {string|Array}
  */
 module.exports = function(src, replace, flags) {
   // Is buffer
@@ -28,7 +33,7 @@ module.exports = function(src, replace, flags) {
   }
 
   // Is has require
-  if (!util.string(src) || !/\brequire\b/.test(src)) {
+  if (!utils.string(src) || !/\brequire\b/.test(src)) {
     return replace ? src : [];
   }
 
