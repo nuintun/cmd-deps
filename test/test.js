@@ -16,13 +16,13 @@ describe('inside parser', () => {
   it('second argument is object', () => {
     const res = parser(s, { flags: ['async'] });
 
-    expect(res.map(function(o) {
+    expect(res.map((o) => {
       return o.flag;
-    })).to.equal(['async']);
+    })).to.eql(['async']);
 
-    expect(res.map(function(o) {
+    expect(res.map((o) => {
       return o.path;
-    })).to.equal(['a']);
+    })).to.eql(['a']);
   });
 });
 
@@ -31,15 +31,15 @@ describe('get the right deps', () => {
   const res = cdeps(s);
 
   it('flag', () => {
-    expect(res.map(function(o) {
+    expect(res.map((o) => {
       return o.flag;
-    })).to.equal([null, null, null]);
+    })).to.eql([null, null, null]);
   });
 
   it('path', () => {
-    expect(res.map(function(o) {
+    expect(res.map((o) => {
       return o.path;
-    })).to.equal(['a', 'b"', 'c"']);
+    })).to.eql(['a', 'b"', 'c"']);
   });
 
   it('use replace', () => {
@@ -53,16 +53,16 @@ describe('get the right deps', () => {
 
   it('reg & comment', () => {
     const s = '(1)/*\n*/ / require("a")';
-    const res = cdeps(s, true).map(function(o) {
+    const res = cdeps(s, true).map((o) => {
       return o.path;
     });
 
-    expect(res).to.equal(["a"]);
+    expect(res).to.eql(['a']);
   });
 
   it('include async', () => {
-    const s = 'require.async("a")';
-    const res = cdeps(s, function(path) {
+    let s = 'require.async("a")';
+    let res = cdeps(s, function(path) {
       return path + '1';
     }, true);
 
@@ -255,38 +255,38 @@ describe('ignores', () => {
 
   it('require /**/', () => {
     const s = 'require/**/("a")';
-    const res = cdeps(s, true).map(function(o) {
+    const res = cdeps(s, true).map((o) => {
       return o.path;
     });
 
-    expect(res).to.equal(["a"]);
+    expect(res).to.eql(['a']);
   });
 
   it('require. /**/', () => {
     const s = 'require.async/**/("a")';
-    const res = cdeps(s, true).map(function(o) {
+    const res = cdeps(s, true).map((o) => {
       return o.path;
     });
 
-    expect(res).to.equal(["a"]);
+    expect(res).to.eql(['a']);
   });
 
   it('require /**/ .', () => {
     const s = 'require/**/.async("a")';
-    const res = cdeps(s, true).map(function(o) {
+    const res = cdeps(s, true).map((o) => {
       return o.path;
     });
 
-    expect(res).to.equal(["a"]);
+    expect(res).to.eql(['a']);
   });
 
   it('require /**/ . /**/', () => {
     const s = 'require/**/.async/**/("a")';
-    const res = cdeps(s, true).map(function(o) {
+    const res = cdeps(s, true).map((o) => {
       return o.path;
     });
 
-    expect(res).to.equal(["a"]);
+    expect(res).to.eql(['a']);
   });
 });
 

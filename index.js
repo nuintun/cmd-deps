@@ -14,7 +14,7 @@ const parser = require('./lib/parser');
  * @function cmd
  * @param {string} src
  * @param {Function} replace
- * @param {Boolean} flags
+ * @param {Array} flags
  * @returns {string|Array}
  */
 module.exports = function(src, replace, flags) {

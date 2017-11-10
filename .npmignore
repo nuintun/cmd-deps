@@ -40,3 +40,6 @@ benchmark
 
 # jsbeautifyrc
 .jsbeautifyrc
+
+# npm lock
+package-lock.json
