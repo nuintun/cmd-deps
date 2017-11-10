@@ -1,6 +1,6 @@
 {
   "name": "cmd-deps",
-  "version": "2.1.3",
+  "version": "2.2.0",
   "description": "Transform cmd and get cmd dependences",
   "author": {
     "name": "nuintun",
