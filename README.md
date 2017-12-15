@@ -1,39 +1,45 @@
 # cmd-deps
 
->Transform cmd and get cmd dependences
+> Transform cmd and get cmd dependences
 >
->[![NPM Version][npm-image]][npm-url]
->[![Download Status][download-image]][npm-url]
->[![Linux Status][travis-image]][travis-url]
->[![Windows Status][appveyor-image]][appveyor-url]
->[![Test Coverage][coveralls-image]][coveralls-url]
->[![Dependencies][david-image]][david-url]
+> [![NPM Version][npm-image]][npm-url]
+> [![Download Status][download-image]][npm-url]
+> [![Linux Status][travis-image]][travis-url]
+> [![Windows Status][appveyor-image]][appveyor-url]
+> [![Test Coverage][coveralls-image]][coveralls-url]
+> [![Dependencies][david-image]][david-url]
 
 ### Installation
+
 ```
 npm install cmd-deps
 ```
 
 ### Api
+
 * parseDependencies(code:String, replace:Function, flags:Boolean|Array):String
 * parseDependencies(code:String, flags:Boolean|Array):Array
   * flags means if use "require.async" like, the result should have a property "flag" of "async"
-  * if flags is boolean, it will be trasform to an array inside, ```true -> ['async']``` and ```false -> []```
+  * if flags is boolean, it will be trasform to an array inside, `true -> ['async']` and `false -> []`
 
 ### Example
+
 source:
+
 ```js
 require('a');
 //require('b');
 /require('c')/;
-'require("d")';
-if(true)/require('e')/;
-do /require('f')/.test(s); while(false);
+('require("d")');
+if (true) /require('e')/;
+do /require('f')/.test(s);
+while (false);
 require.async('g');
 require.async(['h']);
 ```
 
 js:
+
 ```js
 var parseDependencies = require('cmd-deps');
 var deps = parseDependencies(source, true);
@@ -43,21 +49,22 @@ console.log(deps);
 ```
 
 parser output:
+
 ```js
 [
   {
-    "flag": null,
-    "path": "a"
+    flag: null,
+    path: 'a'
   },
   {
-    "flag": 'async',
-    "path": "g"
+    flag: 'async',
+    path: 'g'
   },
   {
-    "flag": 'async',
-    "path": "h"
+    flag: 'async',
+    path: 'h'
   }
-]
+];
 ```
 
 ## License
