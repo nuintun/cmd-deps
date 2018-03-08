@@ -41,8 +41,8 @@ require.async(['h']);
 js:
 
 ```js
-var parseDependencies = require('cmd-deps');
-var deps = parseDependencies(source, true);
+const parseDependencies = require('cmd-deps');
+const deps = parseDependencies(source, true);
 
 // print dependencies
 console.log(deps);

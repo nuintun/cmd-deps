@@ -16,13 +16,8 @@ describe('inside parser', () => {
   it('second argument is object', () => {
     const res = parser(s, { flags: ['async'] });
 
-    expect(res.map((o) => {
-      return o.flag;
-    })).to.eql(['async']);
-
-    expect(res.map((o) => {
-      return o.path;
-    })).to.eql(['a']);
+    expect(res.map(o => o.flag)).to.eql(['async']);
+    expect(res.map(o => o.path)).to.eql(['a']);
   });
 });
 
@@ -31,61 +26,45 @@ describe('get the right deps', () => {
   const res = cdeps(s);
 
   it('flag', () => {
-    expect(res.map((o) => {
-      return o.flag;
-    })).to.eql([null, null, null]);
+    expect(res.map(o => o.flag)).to.eql([null, null, null]);
   });
 
   it('path', () => {
-    expect(res.map((o) => {
-      return o.path;
-    })).to.eql(['a', 'b"', 'c"']);
+    expect(res.map(o => o.path)).to.eql(['a', 'b"', 'c"']);
   });
 
   it('use replace', () => {
     const s = 'require("a");require("b");';
-    const res = cdeps(s, function(path) {
-      return 'woot/' + path;
-    });
+    const res = cdeps(s, path => 'woot/' + path);
 
     expect(res).to.equal('require("woot/a");require("woot/b");');
   });
 
   it('reg & comment', () => {
     const s = '(1)/*\n*/ / require("a")';
-    const res = cdeps(s, true).map((o) => {
-      return o.path;
-    });
+    const res = cdeps(s, true).map(o => o.path);
 
     expect(res).to.eql(['a']);
   });
 
   it('include async', () => {
     let s = 'require.async("a")';
-    let res = cdeps(s, function(path) {
-      return path + '1';
-    }, true);
+    let res = cdeps(s, path => path + '1', true);
 
     expect(res).to.equal('require.async("a1")');
 
     s = 'require["async"]("a");';
-    res = cdeps(s, () => {
-      return '1';
-    }, true);
+    res = cdeps(s, () => '1', true);
 
     expect(res).to.equal('require["async"]("1");');
 
     s = 'require.async(["a", "b"]);';
-    res = cdeps(s, () => {
-      return '1';
-    }, true);
+    res = cdeps(s, () => '1', true);
 
     expect(res).to.equal('require.async(["1", "1"]);');
 
     s = 'require["async"](["a", "b"]);';
-    res = cdeps(s, () => {
-      return '1';
-    }, true);
+    res = cdeps(s, () => '1', true);
 
     expect(res).to.equal('require["async"](["1", "1"]);');
   });
@@ -255,36 +234,28 @@ describe('ignores', () => {
 
   it('require /**/', () => {
     const s = 'require/**/("a")';
-    const res = cdeps(s, true).map((o) => {
-      return o.path;
-    });
+    const res = cdeps(s, true).map(o => o.path);
 
     expect(res).to.eql(['a']);
   });
 
   it('require. /**/', () => {
     const s = 'require.async/**/("a")';
-    const res = cdeps(s, true).map((o) => {
-      return o.path;
-    });
+    const res = cdeps(s, true).map(o => o.path);
 
     expect(res).to.eql(['a']);
   });
 
   it('require /**/ .', () => {
     const s = 'require/**/.async("a")';
-    const res = cdeps(s, true).map((o) => {
-      return o.path;
-    });
+    const res = cdeps(s, true).map(o => o.path);
 
     expect(res).to.eql(['a']);
   });
 
   it('require /**/ . /**/', () => {
     const s = 'require/**/.async/**/("a")';
-    const res = cdeps(s, true).map((o) => {
-      return o.path;
-    });
+    const res = cdeps(s, true).map(o => o.path);
 
     expect(res).to.eql(['a']);
   });
@@ -302,27 +273,21 @@ describe('callback', () => {
 
   it('one', () => {
     const s = 'require("a")';
-    const res = cdeps(s, function(path) {
-      return path + '1';
-    });
+    const res = cdeps(s, path => path + '1');
 
     expect(res).to.equal('require("a1")');
   });
 
   it('tow', () => {
     const s = 'require("a");require("b");';
-    const res = cdeps(s, function(path) {
-      return path + '1';
-    });
+    const res = cdeps(s, path => path + '1');
 
     expect(res).to.equal('require("a1");require("b1");');
   });
 
   it('same length as item', () => {
     const s = 'require("a");require("b");';
-    const res = cdeps(s, () => {
-      return '123456789012';
-    });
+    const res = cdeps(s, () => '123456789012');
 
     expect(res).to.equal('require("123456789012");require("123456789012");');
   });
