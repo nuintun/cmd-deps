@@ -1,12 +1,76 @@
 /**
- * @module index
+ * @module cmd-deps
+ * @author nuintun
+ * @license MIT
+ * @version 2.2.7
+ * @description Transform cmd and get cmd dependences
+ * @see https://nuintun.github.io/cmd-deps
+ */
+
+'use strict';
+
+var acorn = require('acorn');
+
+/**
+ * @module utils
  * @license MIT
  * @version 2017/11/10
  */
 
-// Import lib
-import * as acorn from 'acorn';
-import * as utils from './lib/utils';
+// Variable declaration
+const toString = Object.prototype.toString;
+
+/**
+ * @function noop
+ */
+const noop = () => {};
+
+/**
+ * @function string
+ * @param {any} string
+ * @returns {boolean}
+ */
+function string(string) {
+  return toString.call(string) === '[object String]';
+}
+
+/**
+ * @function fn
+ * @param {any} fn
+ * @returns {boolean}
+ */
+function fn(fn) {
+  return toString.call(fn) === '[object Function]';
+}
+
+/**
+ * @function object
+ * @param {any} object
+ * @returns {boolean}
+ */
+function object(object) {
+  return toString.call(object) === '[object Object]';
+}
+
+/**
+ * @function defined
+ */
+function defined() {
+  const undef = void 0;
+  const length = arguments.length;
+
+  for (let i = 0; i < length; i++) {
+    const value = arguments[i];
+
+    if (value !== undef) return value;
+  }
+}
+
+/**
+ * @module index
+ * @license MIT
+ * @version 2017/11/10
+ */
 
 /**
  * @function parse
@@ -20,13 +84,13 @@ function parse(code, options) {
 
   return acorn.parse(code, {
     sourceType: options.sourceType,
-    ranges: utils.defined(options.ranges, false),
-    locations: utils.defined(options.locations, null),
-    ecmaVersion: utils.defined(options.ecmaVersion, 6),
-    allowHashBang: utils.defined(options.allowHashBang, true),
-    allowReserved: utils.defined(options.allowReserved, true),
-    allowReturnOutsideFunction: utils.defined(options.allowReturnOutsideFunction, true),
-    allowImportExportEverywhere: utils.defined(options.allowImportExportEverywhere, true)
+    ranges: defined(options.ranges, false),
+    locations: defined(options.locations, null),
+    ecmaVersion: defined(options.ecmaVersion, 6),
+    allowHashBang: defined(options.allowHashBang, true),
+    allowReserved: defined(options.allowReserved, true),
+    allowReturnOutsideFunction: defined(options.allowReturnOutsideFunction, true),
+    allowImportExportEverywhere: defined(options.allowImportExportEverywhere, true)
   });
 }
 
@@ -36,11 +100,11 @@ function parse(code, options) {
  * @param {Object} object
  * @param {Function} visitor
  */
-function traverse(object, visitor) {
-  if (visitor.call(null, object) !== false) {
-    for (let key in object) {
-      if (object.hasOwnProperty(key)) {
-        let child = object[key];
+function traverse(object$$1, visitor) {
+  if (visitor.call(null, object$$1) !== false) {
+    for (let key in object$$1) {
+      if (object$$1.hasOwnProperty(key)) {
+        let child = object$$1[key];
 
         if (child !== null && typeof child === 'object') {
           traverse(child, visitor);
@@ -102,22 +166,22 @@ function isRequire(node, word, flags) {
  * @param {Object} options
  * @returns {string|Array}
  */
-export default function parser(code, replace, options) {
+function parser(code, replace, options) {
   let offset = 0;
   const dependencies = [];
 
-  if (replace && utils.object(replace)) {
+  if (replace && object(replace)) {
     options = replace;
-    replace = null;
+    replace = undefined;
   }
 
   options = options || {};
 
-  if (!utils.string(code)) code = '';
-  if (!utils.string(options.word)) options.word = 'require';
+  if (!string(code)) code = '';
+  if (!string(options.word)) options.word = 'require';
   if (!new RegExp(`\\b${options.word}\\b`).test(code)) return { code, dependencies };
   if (!Array.isArray(options.flags)) options.flags = [];
-  if (replace && !utils.fn(replace)) replace = utils.noop;
+  if (replace && !fn(replace)) replace = noop;
 
   // The handle function
   const handle = (node, flag) => {
@@ -134,7 +198,7 @@ export default function parser(code, replace, options) {
     if (replace) {
       update = replace(value, flag);
 
-      if (utils.string(update)) {
+      if (string(update)) {
         code = code.substring(0, node.start + offset + 1) + update + code.substring(node.end + offset - 1);
         offset += update.length - value.length;
       }
@@ -168,3 +232,5 @@ export default function parser(code, replace, options) {
   // return result
   return { code, dependencies };
 }
+
+module.exports = parser;
