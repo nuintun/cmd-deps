@@ -117,7 +117,7 @@ export default function parser(code, replace, options) {
   if (!utils.string(options.word)) options.word = 'require';
   if (!new RegExp(`\\b${options.word}\\b`).test(code)) return { code, dependencies };
   if (!Array.isArray(options.flags)) options.flags = [];
-  if (replace && !utils.fn(replace)) replace = utils.noop;
+  if (replace && !utils.fn(replace)) replace = null;
 
   // The handle function
   const handle = (node, flag) => {

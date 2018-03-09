@@ -2,7 +2,7 @@
  * @module cmd-deps
  * @author nuintun
  * @license MIT
- * @version 2.2.7
+ * @version 3.0.0
  * @description Transform cmd and get cmd dependences
  * @see https://nuintun.github.io/cmd-deps
  */
@@ -19,11 +19,6 @@ var acorn = require('acorn');
 
 // Variable declaration
 const toString = Object.prototype.toString;
-
-/**
- * @function noop
- */
-const noop = () => {};
 
 /**
  * @function string
@@ -57,10 +52,11 @@ function object(object) {
  */
 function defined() {
   const undef = void 0;
-  const length = arguments.length;
+  const args = arguments;
+  const length = args.length;
 
   for (let i = 0; i < length; i++) {
-    const value = arguments[i];
+    const value = args[i];
 
     if (value !== undef) return value;
   }
@@ -172,7 +168,7 @@ function parser(code, replace, options) {
 
   if (replace && object(replace)) {
     options = replace;
-    replace = undefined;
+    replace = null;
   }
 
   options = options || {};
@@ -181,7 +177,7 @@ function parser(code, replace, options) {
   if (!string(options.word)) options.word = 'require';
   if (!new RegExp(`\\b${options.word}\\b`).test(code)) return { code, dependencies };
   if (!Array.isArray(options.flags)) options.flags = [];
-  if (replace && !fn(replace)) replace = noop;
+  if (replace && !fn(replace)) replace = null;
 
   // The handle function
   const handle = (node, flag) => {
