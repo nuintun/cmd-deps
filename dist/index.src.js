@@ -160,7 +160,7 @@ function isRequire(node, word, flags) {
  * @param {string} code
  * @param {Function} replace
  * @param {Object} options
- * @returns {string|Array}
+ * @returns {Object}
  */
 function parser(code, replace, options) {
   let offset = 0;
