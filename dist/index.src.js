@@ -203,7 +203,7 @@ function parser(code, replace, options) {
     if (replace) {
       update = replace(value, flag);
 
-      if (string(update) && update.trim()) {
+      if (update && string(update)) {
         update = encode(update);
         code = code.substring(0, node.start + offset + 1) + update + code.substring(node.end + offset - 1);
         offset += update.length - value.length;
