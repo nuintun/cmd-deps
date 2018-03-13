@@ -134,7 +134,8 @@ export default function parser(code, replace, options) {
     if (replace) {
       update = replace(value, flag);
 
-      if (utils.string(update)) {
+      if (utils.string(update) && update.trim()) {
+        update = utils.encode(update);
         code = code.substring(0, node.start + offset + 1) + update + code.substring(node.end + offset - 1);
         offset += update.length - value.length;
       }

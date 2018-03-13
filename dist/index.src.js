@@ -63,6 +63,15 @@ function defined() {
 }
 
 /**
+ * @function encode
+ * @param {sting} path
+ * @returns {string}
+ */
+function encode(path) {
+  return path.replace(/['"]/g, '\\$&');
+}
+
+/**
  * @module index
  * @license MIT
  * @version 2017/11/10
@@ -194,7 +203,8 @@ function parser(code, replace, options) {
     if (replace) {
       update = replace(value, flag);
 
-      if (string(update)) {
+      if (string(update) && update.trim()) {
+        update = encode(update);
         code = code.substring(0, node.start + offset + 1) + update + code.substring(node.end + offset - 1);
         offset += update.length - value.length;
       }

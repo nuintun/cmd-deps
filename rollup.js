@@ -40,6 +40,7 @@ rollup
         format: 'cjs',
         strict: true,
         indent: true,
+        legacy: true,
         interop: false,
         banner: banner
       })
