@@ -9,7 +9,7 @@
 
 'use strict';
 
-var acorn = require('acorn');
+const acorn = require('acorn');
 
 /**
  * @module utils

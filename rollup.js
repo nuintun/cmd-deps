@@ -24,6 +24,7 @@ const banner = `/**
 rollup
   .rollup({
     input: 'index.js',
+    preferConst: true,
     external: ['acorn']
   })
   .then(function(bundle) {
