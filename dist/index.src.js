@@ -48,21 +48,6 @@ function object(object) {
 }
 
 /**
- * @function defined
- */
-function defined() {
-  const undef = void 0;
-  const args = arguments;
-  const length = args.length;
-
-  for (let i = 0; i < length; i++) {
-    const value = args[i];
-
-    if (value !== undef) return value;
-  }
-}
-
-/**
  * @function encode
  * @param {sting} path
  * @returns {string}
@@ -76,28 +61,6 @@ function encode(path) {
  * @license MIT
  * @version 2017/11/10
  */
-
-/**
- * @function parse
- * @description The parse function
- * @param {string} code
- * @param {Object} options
- * @returns {AST}
- */
-function parse(code, options) {
-  options = options || {};
-
-  return acorn.parse(code, {
-    sourceType: options.sourceType,
-    ranges: defined(options.ranges, false),
-    locations: defined(options.locations, null),
-    ecmaVersion: defined(options.ecmaVersion, 6),
-    allowHashBang: defined(options.allowHashBang, true),
-    allowReserved: defined(options.allowReserved, true),
-    allowReturnOutsideFunction: defined(options.allowReturnOutsideFunction, true),
-    allowImportExportEverywhere: defined(options.allowImportExportEverywhere, true)
-  });
-}
 
 /**
  * @function traverse
@@ -131,7 +94,7 @@ function visit(code, options, callback) {
 
   // Parse ast
   try {
-    syntax = parse(code, options);
+    syntax = acorn.parse(code, options);
   } catch (error) {
     // Parse ast error, do nothing
   }

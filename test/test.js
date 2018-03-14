@@ -10,271 +10,271 @@ const expect = require('chai').expect;
 const cdeps = require('../dist/index');
 
 describe('get the right deps', () => {
-  const s = 'require("a");require(\'b"\');require("c\\"")';
-  const res = cdeps(s).dependencies;
+  const code = 'require("a");require(\'b"\');require("c\\"")';
+  const result = cdeps(code).dependencies;
 
   it('flag', () => {
-    expect(res.map(o => o.flag)).to.eql([null, null, null]);
+    expect(result.map(o => o.flag)).to.eql([null, null, null]);
   });
 
   it('path', () => {
-    expect(res.map(o => o.path)).to.eql(['a', 'b"', 'c"']);
+    expect(result.map(o => o.path)).to.eql(['a', 'b"', 'c"']);
   });
 
   it('use replace', () => {
-    const s = 'require("a");require("b");';
-    const res = cdeps(s, path => 'woot/' + path).code;
+    const code = 'require("a");require("b");';
+    const result = cdeps(code, path => 'woot/' + path).code;
 
-    expect(res).to.equal('require("woot/a");require("woot/b");');
+    expect(result).to.equal('require("woot/a");require("woot/b");');
   });
 
   it('reg & comment', () => {
-    const s = '(1)/*\n*/ / require("a")';
-    const res = cdeps(s).dependencies.map(o => o.path);
+    const code = '(1)/*\n*/ / require("a")';
+    const result = cdeps(code).dependencies.map(o => o.path);
 
-    expect(res).to.eql(['a']);
+    expect(result).to.eql(['a']);
   });
 
   it('include async', () => {
-    let s = 'require.async("a")';
-    let res = cdeps(s, path => path + '1', { flags: ['async'] }).code;
+    let code = 'require.async("a")';
+    let result = cdeps(code, path => path + '1', { flags: ['async'] }).code;
 
-    expect(res).to.equal('require.async("a1")');
+    expect(result).to.equal('require.async("a1")');
 
-    s = 'require["async"]("a");';
-    res = cdeps(s, path => '1', { flags: ['async'] }).code;
+    code = 'require["async"]("a");';
+    result = cdeps(code, path => '1', { flags: ['async'] }).code;
 
-    expect(res).to.equal('require["async"]("1");');
+    expect(result).to.equal('require["async"]("1");');
 
-    s = 'require.async(["a", "b"]);';
-    res = cdeps(s, path => '1', { flags: ['async'] }).code;
+    code = 'require.async(["a", "b"]);';
+    result = cdeps(code, path => '1', { flags: ['async'] }).code;
 
-    expect(res).to.equal('require.async(["1", "1"]);');
+    expect(result).to.equal('require.async(["1", "1"]);');
 
-    s = 'require["async"](["a", "b"]);';
-    res = cdeps(s, path => '1', { flags: ['async'] }).code;
+    code = 'require["async"](["a", "b"]);';
+    result = cdeps(code, path => '1', { flags: ['async'] }).code;
 
-    expect(res).to.equal('require["async"](["1", "1"]);');
+    expect(result).to.equal('require["async"](["1", "1"]);');
   });
 
   it('async flag', () => {
-    const s = 'require.async("a")';
-    const res = cdeps(s, { flags: ['async'] }).dependencies;
+    const code = 'require.async("a")';
+    const result = cdeps(code, { flags: ['async'] }).dependencies;
 
-    expect(res[0].flag).to.equal('async');
+    expect(result[0].flag).to.equal('async');
   });
 
   it('custom flag', () => {
-    const s = 'require.custom("a")';
-    const res = cdeps(s, { flags: ['custom'] }).dependencies;
+    const code = 'require.custom("a")';
+    const result = cdeps(code, { flags: ['custom'] }).dependencies;
 
-    expect(res[0].flag).to.equal('custom');
+    expect(result[0].flag).to.equal('custom');
   });
 
   it('return', () => {
-    const s = "return require('highlight.js').highlightAuto(code).value;";
-    const res = cdeps(s).dependencies;
+    const code = "return require('highlight.js').highlightAuto(code).value;";
+    const result = cdeps(code, { acorn: { allowReturnOutsideFunction: true } }).dependencies;
 
-    expect(res.length).to.equal(1);
+    expect(result.length).to.equal(1);
   });
 
   it('callback', () => {
-    const s = 'require.async("slider", function(){\nalert("loaded");\n});';
-    const res = cdeps(s, { flags: ['async'] }).dependencies;
+    const code = 'require.async("slider", function(){\nalert("loaded");\n});';
+    const result = cdeps(code, { flags: ['async'] }).dependencies;
 
-    expect(res.length).to.equal(1);
+    expect(result.length).to.equal(1);
   });
 
   it('block & reg 1', () => {
-    const s = '({}/require("a"))';
-    const res = cdeps(s).dependencies;
+    const code = '({}/require("a"))';
+    const result = cdeps(code).dependencies;
 
-    expect(res.length).to.equal(1);
+    expect(result.length).to.equal(1);
   });
 
   it('block & reg 2', () => {
-    const s = 'return {}/require("a")';
-    const res = cdeps(s).dependencies;
+    const code = 'return {}/require("a")';
+    const result = cdeps(code, { acorn: { allowReturnOutsideFunction: true } }).dependencies;
 
-    expect(res.length).to.equal(1);
+    expect(result.length).to.equal(1);
   });
 
   it('block & reg 3', () => {
-    const s = 'v={}/require("a")';
-    const res = cdeps(s).dependencies;
+    const code = 'v={}/require("a")';
+    const result = cdeps(code).dependencies;
 
-    expect(res.length).to.equal(1);
+    expect(result.length).to.equal(1);
   });
 });
 
 describe('ignores', () => {
   it('in quote', () => {
-    const s = '"require(\'a\')"';
-    const res = cdeps(s).dependencies;
+    const code = '"require(\'a\')"';
+    const result = cdeps(code).dependencies;
 
-    expect(res.length).to.equal(0);
+    expect(result.length).to.equal(0);
   });
 
   it('in comment', () => {
-    const s = '//require("a")';
-    const res = cdeps(s).dependencies;
+    const code = '//require("a")';
+    const result = cdeps(code).dependencies;
 
-    expect(res.length).to.equal(0);
+    expect(result.length).to.equal(0);
   });
 
   it('in multi comment', () => {
-    const s = '/*\nrequire("a")*/';
-    const res = cdeps(s).dependencies;
+    const code = '/*\nrequire("a")*/';
+    const result = cdeps(code).dependencies;
 
-    expect(res.length).to.equal(0);
+    expect(result.length).to.equal(0);
   });
 
   it('in reg', () => {
-    const s = '/require("a")/';
-    const res = cdeps(s).dependencies;
+    const code = '/require("a")/';
+    const result = cdeps(code).dependencies;
 
-    expect(res.length).to.equal(0);
+    expect(result.length).to.equal(0);
   });
 
   it('in ifstmt with no {}', () => {
-    const s = 'if(true)/require("a")/';
-    const res = cdeps(s).dependencies;
+    const code = 'if(true)/require("a")/';
+    const result = cdeps(code).dependencies;
 
-    expect(res.length).to.equal(0);
+    expect(result.length).to.equal(0);
   });
 
   it('in dostmt with no {}', () => {
-    const s = 'do /require("a")/.test(s); while(false)';
-    const res = cdeps(s).dependencies;
+    const code = 'do /require("a")/.test(code); while(false)';
+    const result = cdeps(code).dependencies;
 
-    expect(res.length).to.equal(0);
+    expect(result.length).to.equal(0);
   });
 
   it('reg / reg', () => {
-    const s = '/require("a")/ / /require("b")';
-    const res = cdeps(s).dependencies;
+    const code = '/require("a")/ / /require("b")';
+    const result = cdeps(code).dependencies;
 
-    expect(res.length).to.equal(0);
+    expect(result.length).to.equal(0);
   });
 
   it('ignore variable', () => {
-    const s = 'require("a" + b)';
-    const res = cdeps(s).dependencies;
+    const code = 'require("a" + b)';
+    const result = cdeps(code).dependencies;
 
-    expect(res.length).to.equal(0);
+    expect(result.length).to.equal(0);
   });
 
   it('unend string', () => {
-    const s = 'require("a';
-    const res = cdeps(s).dependencies;
+    const code = 'require("a';
+    const result = cdeps(code).dependencies;
 
-    expect(res.length).to.equal(0);
+    expect(result.length).to.equal(0);
   });
 
   it('unend comment', () => {
-    const s = '/*';
-    const res = cdeps(s).dependencies;
+    const code = '/*';
+    const result = cdeps(code).dependencies;
 
-    expect(res.length).to.equal(0);
+    expect(result.length).to.equal(0);
   });
 
   it('unend reg', () => {
-    const s = '/abc';
-    const res = cdeps(s).dependencies;
+    const code = '/abc';
+    const result = cdeps(code).dependencies;
 
-    expect(res.length).to.equal(0);
+    expect(result.length).to.equal(0);
   });
 
   it('ignore async', () => {
-    const s = 'require.async("a")';
-    const res = cdeps(s).dependencies;
+    const code = 'require.async("a")';
+    const result = cdeps(code).dependencies;
 
-    expect(res.length).to.equal(0);
+    expect(result.length).to.equal(0);
   });
 
   it('block & reg 1', () => {
-    const s = '{}/require("a")/';
-    const res = cdeps(s).dependencies;
+    const code = '{}/require("a")/';
+    const result = cdeps(code).dependencies;
 
-    expect(res.length).to.equal(0);
+    expect(result.length).to.equal(0);
   });
 
   it('block & reg 2', () => {
-    const s = 'return\n{}/require("a")/';
-    const res = cdeps(s).dependencies;
+    const code = 'return\n{}/require("a")/';
+    const result = cdeps(code).dependencies;
 
-    expect(res.length).to.equal(0);
+    expect(result.length).to.equal(0);
   });
 
   it('block & reg 3', () => {
-    const s = '()=>{}/require("a")/';
-    const res = cdeps(s).dependencies;
+    const code = '()=>{}/require("a")/';
+    const result = cdeps(code).dependencies;
 
-    expect(res.length).to.equal(0);
+    expect(result.length).to.equal(0);
   });
 
   it('block & reg 4', () => {
-    const s = '(1)\n{}/require("a")/';
-    const res = cdeps(s).dependencies;
+    const code = '(1)\n{}/require("a")/';
+    const result = cdeps(code).dependencies;
 
-    expect(res.length).to.equal(0);
+    expect(result.length).to.equal(0);
   });
 
   it('require /**/', () => {
-    const s = 'require/**/("a")';
-    const res = cdeps(s).dependencies.map(o => o.path);
+    const code = 'require/**/("a")';
+    const result = cdeps(code).dependencies.map(o => o.path);
 
-    expect(res).to.eql(['a']);
+    expect(result).to.eql(['a']);
   });
 
   it('require. /**/', () => {
-    const s = 'require.async/**/("a")';
-    const res = cdeps(s, { flags: ['async'] }).dependencies.map(o => o.path);
+    const code = 'require.async/**/("a")';
+    const result = cdeps(code, { flags: ['async'] }).dependencies.map(o => o.path);
 
-    expect(res).to.eql(['a']);
+    expect(result).to.eql(['a']);
   });
 
   it('require /**/ .', () => {
-    const s = 'require/**/.async("a")';
-    const res = cdeps(s, { flags: ['async'] }).dependencies.map(o => o.path);
+    const code = 'require/**/.async("a")';
+    const result = cdeps(code, { flags: ['async'] }).dependencies.map(o => o.path);
 
-    expect(res).to.eql(['a']);
+    expect(result).to.eql(['a']);
   });
 
   it('require /**/ . /**/', () => {
-    const s = 'require/**/.async/**/("a")';
-    const res = cdeps(s, { flags: ['async'] }).dependencies.map(o => o.path);
+    const code = 'require/**/.async/**/("a")';
+    const result = cdeps(code, { flags: ['async'] }).dependencies.map(o => o.path);
 
-    expect(res).to.eql(['a']);
+    expect(result).to.eql(['a']);
   });
 });
 
 describe('callback', () => {
   it('none', () => {
-    const s = 'test("a")';
-    const res = cdeps(s, () => '1').code;
+    const code = 'test("a")';
+    const result = cdeps(code, () => '1').code;
 
-    expect(res).to.equal(s);
+    expect(result).to.equal(code);
   });
 
   it('one', () => {
-    const s = 'require("a")';
-    const res = cdeps(s, path => path + '1').code;
+    const code = 'require("a")';
+    const result = cdeps(code, path => path + '1').code;
 
-    expect(res).to.equal('require("a1")');
+    expect(result).to.equal('require("a1")');
   });
 
   it('tow', () => {
-    const s = 'require("a");require("b");';
-    const res = cdeps(s, path => path + '1').code;
+    const code = 'require("a");require("b");';
+    const result = cdeps(code, path => path + '1').code;
 
-    expect(res).to.equal('require("a1");require("b1");');
+    expect(result).to.equal('require("a1");require("b1");');
   });
 
   it('same length as item', () => {
-    const s = 'require("a");require("b");';
-    const res = cdeps(s, () => '123456789012').code;
+    const code = 'require("a");require("b");';
+    const result = cdeps(code, () => '123456789012').code;
 
-    expect(res).to.equal('require("123456789012");require("123456789012");');
+    expect(result).to.equal('require("123456789012");require("123456789012");');
   });
 });

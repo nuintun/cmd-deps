@@ -9,28 +9,6 @@ import * as acorn from 'acorn';
 import * as utils from './lib/utils';
 
 /**
- * @function parse
- * @description The parse function
- * @param {string} code
- * @param {Object} options
- * @returns {AST}
- */
-function parse(code, options) {
-  options = options || {};
-
-  return acorn.parse(code, {
-    sourceType: options.sourceType,
-    ranges: utils.defined(options.ranges, false),
-    locations: utils.defined(options.locations, null),
-    ecmaVersion: utils.defined(options.ecmaVersion, 6),
-    allowHashBang: utils.defined(options.allowHashBang, true),
-    allowReserved: utils.defined(options.allowReserved, true),
-    allowReturnOutsideFunction: utils.defined(options.allowReturnOutsideFunction, true),
-    allowImportExportEverywhere: utils.defined(options.allowImportExportEverywhere, true)
-  });
-}
-
-/**
  * @function traverse
  * @description Executes visitor on the object and its children (recursively).
  * @param {Object} object
@@ -62,7 +40,7 @@ function visit(code, options, callback) {
 
   // Parse ast
   try {
-    syntax = parse(code, options);
+    syntax = acorn.parse(code, options);
   } catch (error) {
     // Parse ast error, do nothing
   }
