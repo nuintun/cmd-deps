@@ -6,10 +6,21 @@
 
 'use strict';
 
-const fs = require('fs');
 const rollup = require('rollup');
-const uglify = require('uglify-es');
 const pkg = require('./package.json');
+
+/**
+ * @function build
+ * @param {Object} inputOptions
+ * @param {Object} outputOptions
+ */
+async function build(inputOptions, outputOptions) {
+  const bundle = await rollup.rollup(inputOptions);
+
+  await bundle.write(outputOptions);
+
+  console.log(`Build ${outputOptions.file} success!`);
+}
 
 const banner = `/**
  * @module ${pkg.name}
@@ -21,45 +32,20 @@ const banner = `/**
  */
 `;
 
-rollup
-  .rollup({
-    input: 'index.js',
-    preferConst: true,
-    external: ['acorn']
-  })
-  .then(function(bundle) {
-    try {
-      fs.statSync('dist');
-    } catch (e) {
-      // no such file or directory
-      fs.mkdirSync('dist');
-    }
+const inputOptions = {
+  input: 'index.js',
+  preferConst: true,
+  external: ['acorn']
+};
 
-    bundle
-      .generate({
-        format: 'cjs',
-        strict: true,
-        indent: true,
-        legacy: true,
-        interop: false,
-        banner: banner
-      })
-      .then(function(result) {
-        const src = 'dist/index.src.js';
-        const min = 'dist/index.js';
+const outputOptions = {
+  banner,
+  format: 'cjs',
+  strict: true,
+  indent: true,
+  legacy: true,
+  interop: false,
+  file: 'dist/index.js'
+};
 
-        fs.writeFileSync(src, result.code);
-        console.log(`  Build ${src} success!`);
-
-        result = uglify.minify(result.code, { ecma: 6 });
-
-        fs.writeFileSync(min, banner + result.code);
-        console.log(`  Build ${min} success!`);
-      })
-      .catch(function(error) {
-        console.error(error);
-      });
-  })
-  .catch(function(error) {
-    console.error(error);
-  });
+build(inputOptions, outputOptions);
