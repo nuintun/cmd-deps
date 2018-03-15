@@ -99,25 +99,26 @@ export default function parser(code, replace, options) {
 
   // The handle function
   const handle = (node, flag) => {
-    let update;
-    const value = node.value;
+    let value = node.value;
+
+    // Replace code
+    if (replace) {
+      const length = value.length;
+
+      value = replace(value, flag);
+
+      if (value && utils.string(value)) {
+        value = utils.encode(value);
+        code = code.substring(0, node.start + offset + 1) + value + code.substring(node.end + offset - 1);
+        offset += value.length - length;
+      }
+    }
 
     // Push dependencie in to array
     dependencies.push({
       flag: flag,
       path: value
     });
-
-    // Replace code
-    if (replace) {
-      update = replace(value, flag);
-
-      if (update && utils.string(update)) {
-        update = utils.encode(update);
-        code = code.substring(0, node.start + offset + 1) + update + code.substring(node.end + offset - 1);
-        offset += update.length - value.length;
-      }
-    }
   };
 
   // Visit code
