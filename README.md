@@ -17,12 +17,12 @@ npm install cmd-deps
 
 ### Api
 
-* parseDependencies(code:String, options:Object):Object
-* parseDependencies(code:String, replace:Function, options:Object):Object
+* parseDependencies(code:String|Buffer, options:Object):Object
+* parseDependencies(code:String|Buffer, replace:Function, options:Object):Object
   * options { acorn:Object, word:String, flags:Array }
-  * acorn: acorn options
-  * word: dependencies function name
-  * flags: dependencies function method name
+    * acorn: acorn options
+    * word: dependencies function name
+    * flags: dependencies function method name
 
 ### Example
 

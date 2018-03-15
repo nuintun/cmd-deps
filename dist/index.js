@@ -129,7 +129,7 @@ function isRequire(node, word, flags) {
 
 /**
  * @function parser
- * @param {string} code
+ * @param {string|Buffer} code
  * @param {Function} replace
  * @param {Object} options
  * @returns {Object}
@@ -137,6 +137,9 @@ function isRequire(node, word, flags) {
 function parser(code, replace, options) {
   let offset = 0;
   const dependencies = [];
+
+  // Is buffer
+  if (Buffer.isBuffer(code)) code = code.toString();
 
   if (replace && object(replace)) {
     options = replace;
