@@ -3,8 +3,8 @@
 # see https://npmjs.org/doc/faq.html#Should-I-check-my-node_modules-folder-into-git
 node_modules
 
-# WebStorm
-.idea
+# vscode
+.vscode
 
 # github
 .gitignore
@@ -41,7 +41,7 @@ benchmark
 # jsbeautifyrc
 .jsbeautifyrc
 
-# npm lock
+# npm lock file
 package-lock.json
 
 # src file and dist dev file
