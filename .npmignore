@@ -45,6 +45,5 @@ benchmark
 package-lock.json
 
 # src file and dist dev file
-lib
-index.js
-dist/index.src.js
+/lib
+/index.js
