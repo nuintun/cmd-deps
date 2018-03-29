@@ -6,14 +6,12 @@
     "name": "nuintun",
     "email": "nuintun@qq.com"
   },
-  "homepage": "https://nuintun.github.io/cmd-deps",
   "repository": {
     "type": "git",
-    "url": "git://github.com/nuintun/cmd-deps.git"
+    "url": "git+https://github.com/nuintun/cmd-deps.git"
   },
   "bugs": {
-    "url": "https://github.com/nuintun/cmd-deps/issues",
-    "email": "nuintun@qq.com"
+    "url": "https://github.com/nuintun/cmd-deps/issues"
   },
   "engines": {
     "node": ">=4.0.0"
@@ -28,10 +26,10 @@
     "chai": "^4.1.2",
     "rollup": "^0.57.1"
   },
-  "readmeFilename": "README.md",
   "scripts": {
     "test": "mocha --check-leaks --reporter spec --bail --exit",
     "test-ci": "istanbul cover node_modules/mocha/bin/_mocha --report lcovonly -- --check-leaks --reporter spec --exit",
     "test-cov": "istanbul cover node_modules/mocha/bin/_mocha -- --check-leaks --reporter dot --exit"
-  }
+  },
+  "homepage": "https://github.com/nuintun/cmd-deps#readme"
 }
