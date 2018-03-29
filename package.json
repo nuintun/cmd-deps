@@ -1,6 +1,6 @@
 {
   "name": "cmd-deps",
-  "version": "2.3.0",
+  "version": "2.3.1",
   "description": "Transform cmd and get cmd dependences",
   "author": {
     "name": "nuintun",
@@ -19,7 +19,7 @@
     "node": ">=4.0.0"
   },
   "license": "MIT",
-  "main": "index",
+  "main": "index.js",
   "keywords": ["cmd", "require", "common", "commonjs", "transform", "dependencies"],
   "dependencies": {
     "acorn": "^5.5.3"
