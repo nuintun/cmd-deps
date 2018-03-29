@@ -1,7 +1,7 @@
 {
   "name": "cmd-deps",
   "version": "3.0.0",
-  "description": "Transform cmd and get cmd dependences",
+  "description": "Transform cmd and get cmd dependences.",
   "author": {
     "name": "nuintun",
     "email": "nuintun@qq.com"

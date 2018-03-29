@@ -3,8 +3,8 @@
  * @author nuintun
  * @license MIT
  * @version 3.0.0
- * @description Transform cmd and get cmd dependences
- * @see https://nuintun.github.io/cmd-deps
+ * @description Transform cmd and get cmd dependences.
+ * @see https://github.com/nuintun/cmd-deps#readme
  */
 
 'use strict';
