@@ -51,7 +51,7 @@ function visit(code, options, callback) {
 
 /**
  * @function isRequire
- * @description The is require function
+ * @description Check is require call expression
  * @param {Object} node
  * @param {string} word
  * @param {Array} flags
@@ -60,17 +60,22 @@ function isRequire(node, word, flags) {
   if (node.type === 'CallExpression') {
     node = node.callee;
 
-    if (flags.length && node.type === 'MemberExpression') {
+    if (flags.size && node.type === 'MemberExpression') {
+      const object = node.object;
+      const property = node.property;
+
       return (
-        node.object.type === 'Identifier' &&
-        node.object.name === word &&
-        ((node.property.type === 'Identifier' && flags.indexOf(node.property.name) !== -1) ||
-          (node.property.type === 'Literal' && flags.indexOf(node.property.value) !== -1))
+        object.type === 'Identifier' &&
+        object.name === word &&
+        ((property.type === 'Literal' && flags.has(property.value)) ||
+          (property.type === 'Identifier' && !node.computed && flags.has(property.name)))
       );
     } else {
       return node.type === 'Identifier' && node.name === word;
     }
   }
+
+  return false;
 }
 
 /**
@@ -100,6 +105,9 @@ export default function parser(code, replace, options) {
   if (!Array.isArray(options.flags)) options.flags = [];
   if (replace && !utils.fn(replace)) replace = null;
 
+  // Use Set
+  options.flags = new Set(options.flags);
+
   // The handle function
   const handle = (node, flag) => {
     let value = node.value;
@@ -127,17 +135,17 @@ export default function parser(code, replace, options) {
   // Visit code
   visit(code, options.acorn, node => {
     if (isRequire(node, options.word, options.flags)) {
-      let args = node.arguments;
-      const property = node.callee.property;
-      const flag = property ? property.name : null;
+      const args = node.arguments[0];
 
       // When arguments length > 0
-      if (args.length) {
-        args = args[0];
+      if (args) {
+        const type = args.type;
+        const property = node.callee.property;
+        const flag = property ? property.name || property.value : null;
 
-        if (args.type === 'Literal') {
+        if (type === 'Literal') {
           handle(args, flag);
-        } else if (args.type === 'ArrayExpression') {
+        } else if (type === 'ArrayExpression') {
           args.elements.forEach(args => {
             if (args.type === 'Literal') {
               handle(args, flag);
