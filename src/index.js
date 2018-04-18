@@ -1,66 +1,12 @@
 /**
- * @module cmd-deps
- * @author nuintun
- * @license MIT
- * @version 3.0.0
- * @description Transform cmd and get cmd dependences.
- * @see https://github.com/nuintun/cmd-deps#readme
- */
-
-'use strict';
-
-const acorn = require('acorn');
-
-/**
- * @module utils
- * @license MIT
- * @version 2017/11/10
- */
-
-// Variable declaration
-const toString = Object.prototype.toString;
-
-/**
- * @function string
- * @param {any} string
- * @returns {boolean}
- */
-function string(string) {
-  return toString.call(string) === '[object String]';
-}
-
-/**
- * @function fn
- * @param {any} fn
- * @returns {boolean}
- */
-function fn(fn) {
-  return toString.call(fn) === '[object Function]';
-}
-
-/**
- * @function object
- * @param {any} object
- * @returns {boolean}
- */
-function object(object) {
-  return toString.call(object) === '[object Object]';
-}
-
-/**
- * @function encode
- * @param {sting} path
- * @returns {string}
- */
-function encode(path) {
-  return path.replace(/['"]/g, '\\$&');
-}
-
-/**
  * @module index
  * @license MIT
  * @version 2017/11/10
  */
+
+// Import lib
+import * as acorn from 'acorn';
+import * as utils from './lib/utils';
 
 /**
  * @function traverse
@@ -68,11 +14,11 @@ function encode(path) {
  * @param {Object} object
  * @param {Function} visitor
  */
-function traverse(object$$1, visitor) {
-  if (visitor.call(null, object$$1) !== false) {
-    for (let key in object$$1) {
-      if (object$$1.hasOwnProperty(key)) {
-        let child = object$$1[key];
+function traverse(object, visitor) {
+  if (visitor.call(null, object) !== false) {
+    for (let key in object) {
+      if (object.hasOwnProperty(key)) {
+        let child = object[key];
 
         if (child !== null && typeof child === 'object') {
           traverse(child, visitor);
@@ -115,12 +61,12 @@ function isRequire(node, word, flags) {
     node = node.callee;
 
     if (flags.size && node.type === 'MemberExpression') {
-      const object$$1 = node.object;
+      const object = node.object;
       const property = node.property;
 
       return (
-        object$$1.type === 'Identifier' &&
-        object$$1.name === word &&
+        object.type === 'Identifier' &&
+        object.name === word &&
         ((property.type === 'Literal' && flags.has(property.value)) ||
           (property.type === 'Identifier' && !node.computed && flags.has(property.name)))
       );
@@ -135,29 +81,31 @@ function isRequire(node, word, flags) {
 /**
  * @function parser
  * @param {string|Buffer} code
- * @param {Function} replace
- * @param {Object} options
+ * @param {Function} [replace]
+ * @param {Object} [options]
+ * @param {string} [options.word]
+ * @param {string[]} [options.flags]
  * @returns {Object}
  */
-function parser(code, replace, options) {
+export default function parser(code, replace, options) {
   let offset = 0;
   const dependencies = [];
 
   // Is buffer
   if (Buffer.isBuffer(code)) code = code.toString();
 
-  if (replace && object(replace)) {
+  if (replace && utils.object(replace)) {
     options = replace;
     replace = null;
   }
 
   options = options || {};
 
-  if (!string(code)) code = '';
-  if (!string(options.word)) options.word = 'require';
+  if (!utils.string(code)) code = '';
+  if (!utils.string(options.word)) options.word = 'require';
   if (!new RegExp(`\\b${options.word}\\b`).test(code)) return { code, dependencies };
   if (!Array.isArray(options.flags)) options.flags = [];
-  if (replace && !fn(replace)) replace = null;
+  if (replace && !utils.fn(replace)) replace = null;
 
   // Use Set
   options.flags = new Set(options.flags);
@@ -172,8 +120,8 @@ function parser(code, replace, options) {
 
       value = replace(value, flag);
 
-      if (value && string(value)) {
-        value = encode(value);
+      if (value && utils.string(value)) {
+        value = utils.encode(value);
         code = code.substring(0, node.start + offset + 1) + value + code.substring(node.end + offset - 1);
         offset += value.length - length;
       }
@@ -213,5 +161,3 @@ function parser(code, replace, options) {
   // return result
   return { code, dependencies };
 }
-
-module.exports = parser;
