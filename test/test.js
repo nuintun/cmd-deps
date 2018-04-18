@@ -6,8 +6,8 @@
 
 'use strict';
 
+const cdeps = require('../index');
 const expect = require('chai').expect;
-const cdeps = require('../dist/index');
 
 describe('get the right deps', () => {
   const code = 'require("a");require(\'b"\');require("c\\"")';
