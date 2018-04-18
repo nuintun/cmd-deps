@@ -17,15 +17,8 @@
     "node": ">=4.0.0"
   },
   "license": "MIT",
-  "main": "dist/index.js",
-  "keywords": [
-    "cmd",
-    "require",
-    "common",
-    "commonjs",
-    "transform",
-    "dependencies"
-  ],
+  "main": "index.js",
+  "keywords": ["cmd", "require", "common", "commonjs", "transform", "dependencies"],
   "dependencies": {
     "acorn": "^5.5.3"
   },
