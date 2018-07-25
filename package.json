@@ -18,14 +18,21 @@
   },
   "license": "MIT",
   "main": "index.js",
-  "keywords": ["cmd", "require", "common", "commonjs", "transform", "dependencies"],
+  "keywords": [
+    "cmd",
+    "require",
+    "common",
+    "commonjs",
+    "transform",
+    "dependencies"
+  ],
   "dependencies": {
-    "acorn": "^5.6.0"
+    "acorn": "^5.7.1"
   },
   "devDependencies": {
     "chai": "^4.1.2",
-    "rollup": "^0.59.4",
-    "fs-extra": "^6.0.1"
+    "rollup": "^0.63.4",
+    "fs-extra": "^7.0.0"
   },
   "scripts": {
     "prepublishOnly": "node rollup.js",
