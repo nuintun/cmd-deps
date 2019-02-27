@@ -68,11 +68,11 @@ function encode(path) {
  * @param {Object} object
  * @param {Function} visitor
  */
-function traverse(object$$1, visitor) {
-  if (visitor.call(null, object$$1) !== false) {
-    for (let key in object$$1) {
-      if (object$$1.hasOwnProperty(key)) {
-        let child = object$$1[key];
+function traverse(object, visitor) {
+  if (visitor.call(null, object) !== false) {
+    for (let key in object) {
+      if (object.hasOwnProperty(key)) {
+        let child = object[key];
 
         if (child !== null && typeof child === 'object') {
           traverse(child, visitor);
@@ -115,12 +115,12 @@ function isRequire(node, word, flags) {
     node = node.callee;
 
     if (flags.size && node.type === 'MemberExpression') {
-      const object$$1 = node.object;
+      const object = node.object;
       const property = node.property;
 
       return (
-        object$$1.type === 'Identifier' &&
-        object$$1.name === word &&
+        object.type === 'Identifier' &&
+        object.name === word &&
         ((property.type === 'Literal' && flags.has(property.value)) ||
           (property.type === 'Identifier' && !node.computed && flags.has(property.name)))
       );
