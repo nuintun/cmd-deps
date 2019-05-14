@@ -1,7 +1,7 @@
 /**
  * @module index
  * @license MIT
- * @version 2017/11/10
+ * @author nuintun
  */
 
 // Import lib

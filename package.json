@@ -1,6 +1,6 @@
 {
   "name": "cmd-deps",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "Transform cmd and get cmd dependences.",
   "author": {
     "name": "nuintun",
@@ -31,8 +31,8 @@
   },
   "devDependencies": {
     "chai": "^4.2.0",
-    "rollup": "^1.3.3",
-    "fs-extra": "^7.0.1"
+    "rollup": "^1.11.3",
+    "fs-extra": "^8.0.1"
   },
   "scripts": {
     "prepublishOnly": "node rollup.js",

@@ -2,7 +2,7 @@
  * @module cmd-deps
  * @author nuintun
  * @license MIT
- * @version 3.0.0
+ * @version 3.0.1
  * @description Transform cmd and get cmd dependences.
  * @see https://github.com/nuintun/cmd-deps#readme
  */
@@ -14,7 +14,7 @@ const acorn = require('acorn');
 /**
  * @module utils
  * @license MIT
- * @version 2017/11/10
+ * @author nuintun
  */
 
 // Variable declaration
@@ -59,7 +59,7 @@ function encode(path) {
 /**
  * @module index
  * @license MIT
- * @version 2017/11/10
+ * @author nuintun
  */
 
 /**
