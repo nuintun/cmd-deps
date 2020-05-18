@@ -31,14 +31,15 @@
   },
   "devDependencies": {
     "chai": "^4.2.0",
-    "rollup": "^2.10.2",
-    "fs-extra": "^9.0.0"
+    "mocha": "^7.1.2",
+    "rollup": "^2.10.2"
   },
   "scripts": {
-    "prepublishOnly": "node rollup.js",
+    "prepublishOnly": "npm run build",
+    "build": "rollup -c rollup.config.js",
     "test": "mocha --check-leaks --reporter spec --bail --exit",
-    "test-ci": "istanbul cover node_modules/mocha/bin/_mocha --report lcovonly -- --check-leaks --reporter spec --exit",
-    "test-cov": "istanbul cover node_modules/mocha/bin/_mocha -- --check-leaks --reporter dot --exit"
+    "test-cov": "istanbul cover node_modules/mocha/bin/_mocha -- --check-leaks --reporter dot --exit",
+    "test-ci": "istanbul cover node_modules/mocha/bin/_mocha --report lcovonly -- --check-leaks --reporter spec --exit"
   },
   "homepage": "https://github.com/nuintun/cmd-deps#readme"
 }

@@ -5,7 +5,7 @@
  */
 
 // Variable declaration
-const toString = Object.prototype.toString;
+const { toString } = Object.prototype;
 
 /**
  * @function string

@@ -18,7 +18,7 @@ const acorn = require('acorn');
  */
 
 // Variable declaration
-const toString = Object.prototype.toString;
+const { toString } = Object.prototype;
 
 /**
  * @function string
@@ -70,9 +70,9 @@ function encode(path) {
  */
 function traverse(object, visitor) {
   if (visitor.call(null, object) !== false) {
-    for (let key in object) {
+    for (const key in object) {
       if (object.hasOwnProperty(key)) {
-        let child = object[key];
+        const child = object[key];
 
         if (child !== null && typeof child === 'object') {
           traverse(child, visitor);
@@ -100,7 +100,9 @@ function visit(code, options, callback) {
   }
 
   // If parse success
-  if (syntax) traverse(syntax, callback);
+  if (syntax) {
+    traverse(syntax, callback);
+  }
 }
 
 /**
@@ -115,15 +117,13 @@ function isRequire(node, word, flags) {
     node = node.callee;
 
     if (flags.size && node.type === 'MemberExpression') {
-      const object = node.object;
-      const property = node.property;
+      const { object } = node;
 
-      return (
-        object.type === 'Identifier' &&
-        object.name === word &&
-        ((property.type === 'Literal' && flags.has(property.value)) ||
-          (property.type === 'Identifier' && !node.computed && flags.has(property.name)))
-      );
+      if (object.type !== 'Identifier' || object.name !== word) return false;
+
+      const { type, name, value } = node.property;
+
+      return (type === 'Literal' && flags.has(value)) || (type === 'Identifier' && !node.computed && flags.has(name));
     } else {
       return node.type === 'Identifier' && node.name === word;
     }
@@ -143,10 +143,13 @@ function isRequire(node, word, flags) {
  */
 function parser(code, replace, options) {
   let offset = 0;
+
   const dependencies = [];
 
   // Is buffer
-  if (Buffer.isBuffer(code)) code = code.toString();
+  if (Buffer.isBuffer(code)) {
+    code = code.toString();
+  }
 
   if (replace && object(replace)) {
     options = replace;
@@ -155,18 +158,32 @@ function parser(code, replace, options) {
 
   options = options || {};
 
-  if (!string(code)) code = '';
-  if (!string(options.word)) options.word = 'require';
-  if (!new RegExp(`\\b${options.word}\\b`).test(code)) return { code, dependencies };
-  if (!Array.isArray(options.flags)) options.flags = [];
-  if (replace && !fn(replace)) replace = null;
+  if (!string(code)) {
+    code = '';
+  }
+
+  if (!string(options.word)) {
+    options.word = 'require';
+  }
+
+  if (!new RegExp(`\\b${options.word}\\b`).test(code)) {
+    return { code, dependencies };
+  }
+
+  if (!Array.isArray(options.flags)) {
+    options.flags = [];
+  }
+
+  if (replace && !fn(replace)) {
+    replace = null;
+  }
 
   // Use Set
   options.flags = new Set(options.flags);
 
   // The handle function
   const handle = (node, flag) => {
-    let value = node.value;
+    let { value } = node;
 
     // Replace code
     if (replace) {
@@ -182,21 +199,18 @@ function parser(code, replace, options) {
     }
 
     // Push dependencie in to array
-    dependencies.push({
-      flag: flag,
-      path: value
-    });
+    dependencies.push({ flag, path: value });
   };
 
   // Visit code
   visit(code, options.acorn, node => {
     if (isRequire(node, options.word, options.flags)) {
-      const args = node.arguments[0];
+      const [args] = node.arguments;
 
       // When arguments length > 0
       if (args) {
-        const type = args.type;
-        const property = node.callee.property;
+        const { type } = args;
+        const { property } = node.callee;
         const flag = property ? property.name || property.value : null;
 
         if (type === 'Literal') {
