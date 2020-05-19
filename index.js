@@ -10,6 +10,7 @@
 'use strict';
 
 const acorn = require('acorn');
+const walk = require('acorn-walk');
 
 /**
  * @module utils
@@ -63,26 +64,6 @@ function encode(path) {
  */
 
 /**
- * @function traverse
- * @description Executes visitor on the object and its children (recursively).
- * @param {Object} object
- * @param {Function} visitor
- */
-function traverse(object, visitor) {
-  if (visitor.call(null, object) !== false) {
-    for (const key in object) {
-      if (object.hasOwnProperty(key)) {
-        const child = object[key];
-
-        if (child !== null && typeof child === 'object') {
-          traverse(child, visitor);
-        }
-      }
-    }
-  }
-}
-
-/**
  * @function visit
  * @description Visit code
  * @param {string} code
@@ -101,7 +82,7 @@ function visit(code, options, callback) {
 
   // If parse success
   if (syntax) {
-    traverse(syntax, callback);
+    walk.full(syntax, callback);
   }
 }
 

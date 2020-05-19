@@ -30,5 +30,5 @@ export default {
     file: 'index.js',
     preferConst: true
   },
-  external: ['acorn']
+  external: ['acorn', 'acorn-walk']
 };

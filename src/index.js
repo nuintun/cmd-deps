@@ -6,27 +6,8 @@
 
 // Import lib
 import * as acorn from 'acorn';
+import * as walk from 'acorn-walk';
 import * as utils from './lib/utils';
-
-/**
- * @function traverse
- * @description Executes visitor on the object and its children (recursively).
- * @param {Object} object
- * @param {Function} visitor
- */
-function traverse(object, visitor) {
-  if (visitor.call(null, object) !== false) {
-    for (const key in object) {
-      if (object.hasOwnProperty(key)) {
-        const child = object[key];
-
-        if (child !== null && typeof child === 'object') {
-          traverse(child, visitor);
-        }
-      }
-    }
-  }
-}
 
 /**
  * @function visit
@@ -47,7 +28,7 @@ function visit(code, options, callback) {
 
   // If parse success
   if (syntax) {
-    traverse(syntax, callback);
+    walk.full(syntax, callback);
   }
 }
 
