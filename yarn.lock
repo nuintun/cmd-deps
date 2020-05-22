@@ -588,9 +588,9 @@ require-main-filename@^2.0.0:
   integrity sha512-NKN5kMDylKuldxYLSUfrbo5Tuzh4hd+2E8NPPX02mZtn1VuREQToYe/ZdlJy+J3uCpfaiGF05e7B8W0iXbQHmg==
 
 rollup@^2.10.3:
-  version "2.10.3"
-  resolved "https://registry.yarnpkg.com/rollup/-/rollup-2.10.3.tgz#b024155a93a13412ff547764f8fd4f67fbf64f51"
-  integrity sha512-Pw4isow3qDZvIozWtEBSZckSxpZgAj11hLijykaO/qZLNq4VGZVZOANBzoWlMabTtg9edQTe3pkLU39PoIkOeg==
+  version "2.10.7"
+  resolved "https://registry.yarnpkg.com/rollup/-/rollup-2.10.7.tgz#7d1a9fa8de146615a098836480df6f8b31c2f058"
+  integrity sha512-rofUSH2i4GymWhQq6bfRaSiVbz4LEB4h/7+AhuXCaeOSwQqClD0hINjs59j8SyfQwcqe83NcVJAY2kjp0h33bQ==
   optionalDependencies:
     fsevents "~2.1.2"
 
