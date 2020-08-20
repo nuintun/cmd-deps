@@ -27,13 +27,13 @@
     "dependencies"
   ],
   "dependencies": {
-    "acorn": "^7.3.1",
-    "acorn-walk": "7.2.0"
+    "acorn": "^8.0.1",
+    "acorn-walk": "8.0.0"
   },
   "devDependencies": {
     "chai": "^4.2.0",
-    "mocha": "^8.0.1",
-    "rollup": "^2.16.1"
+    "mocha": "^8.1.1",
+    "rollup": "^2.26.4"
   },
   "scripts": {
     "prepublishOnly": "npm run build",

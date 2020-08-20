@@ -114,7 +114,7 @@ function isRequire(node, word, flags) {
 }
 
 /**
- * @function parser
+ * @function parse
  * @param {string|Buffer} code
  * @param {Function} [replace]
  * @param {Object} [options]
@@ -122,7 +122,7 @@ function isRequire(node, word, flags) {
  * @param {string[]} [options.flags]
  * @returns {Object}
  */
-function parser(code, replace, options) {
+function parse(code, replace, options) {
   let offset = 0;
 
   const dependencies = [];
@@ -211,4 +211,4 @@ function parser(code, replace, options) {
   return { code, dependencies };
 }
 
-module.exports = parser;
+module.exports = parse;
