@@ -28,7 +28,7 @@
   ],
   "dependencies": {
     "acorn": "^8.0.1",
-    "acorn-walk": "8.0.0"
+    "acorn-walk": "8.0.2"
   },
   "devDependencies": {
     "chai": "^4.2.0",
