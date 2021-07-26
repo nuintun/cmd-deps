@@ -2,7 +2,7 @@
  * @module cmd-deps
  * @author nuintun
  * @license MIT
- * @version 3.1.0
+ * @version 3.2.0
  * @description Transform cmd and get cmd dependences.
  * @see https://github.com/nuintun/cmd-deps#readme
  */

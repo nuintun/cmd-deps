@@ -1,6 +1,6 @@
 {
   "name": "cmd-deps",
-  "version": "3.1.0",
+  "version": "3.2.0",
   "description": "Transform cmd and get cmd dependences.",
   "author": {
     "name": "nuintun",
@@ -27,13 +27,13 @@
     "dependencies"
   ],
   "dependencies": {
-    "acorn": "^8.0.1",
-    "acorn-walk": "8.0.0"
+    "acorn": "^8.4.1",
+    "acorn-walk": "8.1.1"
   },
   "devDependencies": {
-    "chai": "^4.2.0",
-    "mocha": "^8.1.1",
-    "rollup": "^2.26.4"
+    "chai": "^4.3.4",
+    "mocha": "^9.0.3",
+    "rollup": "^2.54.0"
   },
   "scripts": {
     "prepublishOnly": "npm run build",
