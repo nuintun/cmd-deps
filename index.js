@@ -2,7 +2,7 @@
  * @module cmd-deps
  * @author nuintun
  * @license MIT
- * @version 3.2.0
+ * @version 3.2.1
  * @description Transform cmd and get cmd dependences.
  * @see https://github.com/nuintun/cmd-deps#readme
  */
@@ -72,6 +72,8 @@ function encode(path) {
  */
 function visit(code, options, callback) {
   let syntax;
+
+  options = { ecmaVersion: 'latest', ...options };
 
   // Parse ast
   try {

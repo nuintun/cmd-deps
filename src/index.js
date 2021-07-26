@@ -19,6 +19,8 @@ import * as utils from './lib/utils';
 function visit(code, options, callback) {
   let syntax;
 
+  options = { ecmaVersion: 'latest', ...options };
+
   // Parse ast
   try {
     syntax = acorn.parse(code, options);
