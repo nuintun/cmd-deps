@@ -85,27 +85,14 @@ yarn.lock
 # npm lock file
 package-lock.json
 
-# yarn lock file
-yarn.lock
-
 # typescript configuration
 tsconfig.json
 
 # src file
 src/
 
-# example file
-examples/
-
-# qrcode guide
-qrcode.pdf
-qrcode.png
-
 # github pages
 _config.yml
-
-# build tools
-tools/
 
 # github
 .github/
